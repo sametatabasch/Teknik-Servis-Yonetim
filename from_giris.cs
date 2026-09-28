@@ -1,8 +1,8 @@
 namespace Teknik_Servis_Yönetim
 {
-    public partial class Form1 : Form
+    public partial class form_giris : Form
     {
-        public Form1()
+        public form_giris()
         {
             InitializeComponent();
         }
