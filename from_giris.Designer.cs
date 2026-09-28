@@ -86,6 +86,7 @@
             btn_giris.TabIndex = 2;
             btn_giris.Text = "Giriş Yap";
             btn_giris.UseVisualStyleBackColor = true;
+            btn_giris.Click += btn_giris_Click;
             // 
             // form_giris
             // 
