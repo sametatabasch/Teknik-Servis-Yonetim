@@ -14,5 +14,19 @@ namespace Teknik_Servis_Yönetim
         {
             InitializeComponent();
         }
+
+        private void tsmi_cikis_Click(object sender, EventArgs e)
+        {
+            DialogResult secim = MessageBox.Show(
+                "Uygulamadan çıkmak istediğinize emin misiniz?",
+                "Çıkış Onayı",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+            if (secim == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
