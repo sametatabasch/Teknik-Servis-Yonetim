@@ -65,7 +65,7 @@
             // 
             txt_parola.Location = new Point(127, 70);
             txt_parola.Name = "txt_parola";
-            txt_parola.PasswordChar = '*';
+            txt_parola.PasswordChar = '-';
             txt_parola.Size = new Size(176, 23);
             txt_parola.TabIndex = 1;
             // 
@@ -77,6 +77,7 @@
             btn_vacgec.TabIndex = 3;
             btn_vacgec.Text = "Vazgeç";
             btn_vacgec.UseVisualStyleBackColor = true;
+            btn_vacgec.Click += btn_vacgec_Click;
             // 
             // btn_giris
             // 
