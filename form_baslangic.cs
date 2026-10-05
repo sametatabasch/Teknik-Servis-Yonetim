@@ -28,5 +28,32 @@ namespace Teknik_Servis_Yönetim
                 Application.Exit();
             }
         }
+
+        private void sayfa_yukle(UserControl sayfa)
+        {
+            pnl_ana_panel.Controls.Clear();
+            sayfa.Dock = DockStyle.Fill;
+            pnl_ana_panel.Controls.Add(sayfa);
+        }
+
+        private void tsmi_calisan_listesi_Click(object sender, EventArgs e)
+        {
+            sayfa_yukle(new UcCalisanListesi());
+        }
+
+        private void tsmi_calisan_ekle_Click(object sender, EventArgs e)
+        {
+            sayfa_yukle(new UcCalisanEkle());
+        }
+
+        private void tsmi_calisan_duzenle_Click(object sender, EventArgs e)
+        {
+            sayfa_yukle(new UcCalisanDuzenle());
+        }
+
+        private void tsmi_calisan_sil_Click(object sender, EventArgs e)
+        {
+            sayfa_yukle(new UcCalisanSil());
+        }
     }
 }

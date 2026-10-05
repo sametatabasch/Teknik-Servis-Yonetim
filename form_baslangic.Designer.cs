@@ -48,7 +48,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { tsmi_dosya, tsmi_calisan_islemleri });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(1027, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -62,26 +62,26 @@
             // tsmi_profif
             // 
             tsmi_profif.Name = "tsmi_profif";
-            tsmi_profif.Size = new Size(180, 22);
+            tsmi_profif.Size = new Size(141, 22);
             tsmi_profif.Text = "Profil";
             // 
             // tsmi_ayarlar
             // 
             tsmi_ayarlar.Name = "tsmi_ayarlar";
-            tsmi_ayarlar.Size = new Size(180, 22);
+            tsmi_ayarlar.Size = new Size(141, 22);
             tsmi_ayarlar.Text = "Ayarlar";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(138, 6);
             // 
             // tsmi_cikis
             // 
             tsmi_cikis.Name = "tsmi_cikis";
             tsmi_cikis.ShortcutKeyDisplayString = "Alt+F4";
             tsmi_cikis.ShortcutKeys = Keys.Alt | Keys.F4;
-            tsmi_cikis.Size = new Size(180, 22);
+            tsmi_cikis.Size = new Size(141, 22);
             tsmi_cikis.Tag = "";
             tsmi_cikis.Text = "Çıkış";
             tsmi_cikis.Click += tsmi_cikis_Click;
@@ -98,38 +98,42 @@
             tsmi_calisan_listesi.Name = "tsmi_calisan_listesi";
             tsmi_calisan_listesi.Size = new Size(180, 22);
             tsmi_calisan_listesi.Text = "Çalışan Listesi";
+            tsmi_calisan_listesi.Click += tsmi_calisan_listesi_Click;
             // 
             // tsmi_calisan_ekle
             // 
             tsmi_calisan_ekle.Name = "tsmi_calisan_ekle";
             tsmi_calisan_ekle.Size = new Size(180, 22);
             tsmi_calisan_ekle.Text = "Çalışan Ekle";
+            tsmi_calisan_ekle.Click += tsmi_calisan_ekle_Click;
             // 
             // tsmi_calisan_duzenle
             // 
             tsmi_calisan_duzenle.Name = "tsmi_calisan_duzenle";
             tsmi_calisan_duzenle.Size = new Size(180, 22);
             tsmi_calisan_duzenle.Text = "Çalışan Düzenle";
+            tsmi_calisan_duzenle.Click += tsmi_calisan_duzenle_Click;
             // 
             // tsmi_calisan_sil
             // 
             tsmi_calisan_sil.Name = "tsmi_calisan_sil";
             tsmi_calisan_sil.Size = new Size(180, 22);
             tsmi_calisan_sil.Text = "Çalışan Sil";
+            tsmi_calisan_sil.Click += tsmi_calisan_sil_Click;
             // 
             // pnl_ana_panel
             // 
             pnl_ana_panel.Dock = DockStyle.Fill;
             pnl_ana_panel.Location = new Point(0, 24);
             pnl_ana_panel.Name = "pnl_ana_panel";
-            pnl_ana_panel.Size = new Size(800, 426);
+            pnl_ana_panel.Size = new Size(1027, 522);
             pnl_ana_panel.TabIndex = 1;
             // 
             // form_baslangic
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1027, 546);
             Controls.Add(pnl_ana_panel);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
