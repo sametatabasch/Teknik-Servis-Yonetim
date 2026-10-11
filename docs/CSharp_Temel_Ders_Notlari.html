@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>C# Programlama Dili Temel & İleri Konular Kapsamlı Ders Notları</title>
+<style>
+    @page {
+        size: A4;
+        margin: 12mm 14mm 12mm 14mm;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        background-color: #ffffff;
+        line-height: 1.48;
+        font-size: 9.5pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Başlık ve Kapak Alanı */
+    .header-box {
+        background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%);
+        color: #ffffff;
+        padding: 16px 20px;
+        border-radius: 8px;
+        margin-bottom: 14px;
+    }
+
+    .header-box h1 {
+        margin: 0 0 4px 0;
+        font-size: 18pt;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .header-box .subtitle {
+        margin: 0 0 8px 0;
+        font-size: 10.5pt;
+        color: #c7d2fe;
+    }
+
+    .header-box .meta {
+        font-size: 8pt;
+        color: #a5b4fc;
+        display: flex;
+        gap: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 6px;
+        flex-wrap: wrap;
+    }
+
+    h2 {
+        color: #312e81;
+        font-size: 12pt;
+        font-weight: 700;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 4px;
+        margin-top: 14px;
+        margin-bottom: 8px;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        color: #4338ca;
+        font-size: 10pt;
+        font-weight: 600;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+    }
+
+    p {
+        margin: 0 0 6px 0;
+        text-align: justify;
+    }
+
+    /* Kartlar ve Kutular */
+    .card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 9px 12px;
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-left: 5px solid #16a34a;
+        border-radius: 6px;
+        padding: 9px 12px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card h4 {
+        margin: 0 0 5px 0;
+        color: #15803d;
+        font-size: 9.5pt;
+    }
+
+    .warning-card {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-left: 5px solid #d97706;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .info-card {
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-left: 5px solid #3b82f6;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    /* Tablo */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 8px 0;
+        font-size: 8.5pt;
+        page-break-inside: avoid;
+    }
+
+    table th, table td {
+        border: 1px solid #cbd5e1;
+        padding: 5px 8px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    table th {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+
+    /* Akış Kutusu */
+    .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .flow-step {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 5px;
+        padding: 5px 8px;
+        text-align: center;
+        flex: 1;
+    }
+
+    .flow-step strong {
+        display: block;
+        color: #1e293b;
+        font-size: 9pt;
+    }
+
+    .flow-step span {
+        display: block;
+        color: #64748b;
+        font-size: 7.5pt;
+    }
+
+    .flow-arrow {
+        color: #4f46e5;
+        font-weight: bold;
+        font-size: 11pt;
+        padding: 0 4px;
+    }
+
+    /* Kod Blokları */
+    pre, code {
+        font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    pre {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        padding: 8px 10px;
+        border-radius: 5px;
+        font-size: 8pt;
+        overflow-x: auto;
+        line-height: 1.35;
+        margin: 5px 0;
+        page-break-inside: avoid;
+    }
+
+    .highlight { color: #38bdf8; }
+    .keyword { color: #f472b6; }
+    .type { color: #4ade80; }
+    .string { color: #fbbf24; }
+    .comment { color: #94a3b8; font-style: italic; }
+    .number { color: #f87171; }
+
+    ul, ol {
+        margin: 0 0 6px 0;
+        padding-left: 18px;
+    }
+
+    li {
+        margin-bottom: 2.5px;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .footer {
+        margin-top: 10px;
+        padding-top: 6px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 7.5pt;
+        color: #64748b;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+</head>
+<body>
+
+<!-- ========================================== -->
+<!-- SAYFA 1: ÇALIŞMA MİMARİSİ & BELLEK (STACK-HEAP) -->
+<!-- ========================================== -->
+<div class="header-box">
+    <h1>C# Programlama Dili Kapsamlı Ders & Tekrar Notları</h1>
+    <div class="subtitle">Temel Çalışma Mantığından Modern Nesne Yönelimli Tasarıma (OOP) Uygulamalı Rehber</div>
+    <div class="meta">
+        <span>📚 <strong>Kapsam:</strong> Bellek Mimarisi, Namespace & using, get/set Kapsülleme, ref/out, OOP, using Kaynak Yönetimi, LINQ</span>
+        <span>💡 <strong>Hedef Kitle:</strong> Öğrenciler ve Başlangıç-Orta Düzey Geliştiriciler</span>
+    </div>
+</div>
+
+<h2>1. C# Çalışma Mantığı ve Derleme Mimarisi</h2>
+<p>
+    C# kaynak kodu doğrudan bilgisayar işlemcisinin (CPU) anlayacağı 0 ve 1'lerden oluşan makine koduna dönüştürülmez. İki aşamalı, güvenli ve platformdan bağımsız bir derleme sürecinden geçer:
+</p>
+
+<div class="flow-container">
+    <div class="flow-step">
+        <strong>C# Kodu</strong>
+        <span>Program.cs (.cs)</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>Roslyn Derleyicisi</strong>
+        <span>C# Derleyicisi</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>Ara Dil (IL / MSIL)</strong>
+        <span>.dll veya .exe</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>CLR (JIT Derleyici)</strong>
+        <span>Çalışma Anı Motoru</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>Makine Kodu</strong>
+        <span>İşlemci (CPU)</span>
+    </div>
+</div>
+
+<ul>
+    <li><strong>Roslyn Derleyicisi:</strong> Yazdığımız C# kodunu denetler; syntax hatası yoksa ara dile (IL - Intermediate Language) dönüştürür.</li>
+    <li><strong>CLR (Common Language Runtime):</strong> .NET programlarının sanal motorudur. Belleği yönetir, güvenliği sağlar ve istisnaları yakalar.</li>
+    <li><strong>JIT (Just-In-Time) Derleyici:</strong> Program çalıştığı anda (çalışma anında - runtime), IL kodunu o anki bilgisayarın işlemcisine özel makine koduna çevirir.</li>
+    <li><strong>Garbage Collector (GC - Çöp Toplayıcı):</strong> Program çalışırken artık kullanılmayan, sahipsiz kalan nesneleri Heap belleğinden otomatik olarak silip belleği temizler. Geliştiricinin C++'taki gibi manuel bellek silmesine gerek kalmaz.</li>
+</ul>
+
+<h2>2. Bellek Mimarisi: Stack vs. Heap (Hangi Veri Nerede Yaşar?)</h2>
+<p>
+    Bilgisayar belleği (RAM) programlama dillerinde iki ana bölgeye ayrılır. C#'taki tüm veri tipleri bu iki bölgeden birinde saklanır:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">Özellik</th>
+            <th style="width: 40%;">Stack (Yığın) — Değer Tipleri</th>
+            <th style="width: 40%;">Heap (Öbek) — Referans Tipleri</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Tipler</strong></td>
+            <td><code>int</code>, <code>decimal</code>, <code>double</code>, <code>bool</code>, <code>char</code>, <code>struct</code>, <code>enum</code>, <code>DateTime</code></td>
+            <td><code>class</code>, <code>string</code>, <code>List&lt;T&gt;</code>, diziler (<code>array</code>), <code>interface</code></td>
+        </tr>
+        <tr>
+            <td><strong>Çalışma Hızı</strong></td>
+            <td>Çok hızlıdır. Boyutları derleme anında bellidir.</td>
+            <td>Stack'e göre daha yavaştır; dinamik olarak büyüyebilir.</td>
+        </tr>
+        <tr>
+            <td><strong>Veri Saklama</strong></td>
+            <td>Verinin doğrudan <strong>kendisi</strong> Stack'te saklanır.</td>
+            <td>Nesnenin <strong>kendisi Heap'tedir</strong>; Stack'te ise o nesnenin Heap'teki adresi (işaretçisi / pointer) durur.</td>
+        </tr>
+        <tr>
+            <td><strong>Kopyalama Davranışı</strong></td>
+            <td><strong>Değer kopyalanır.</strong> Bir değişkenin değişmesi diğerini asla etkilemez.</td>
+            <td><strong>Adres kopyalanır.</strong> İki değişken aynı nesneyi gösterir; birindeki değişiklik diğerine yansır.</td>
+        </tr>
+        <tr>
+            <td><strong>Varsayılan Değer</strong></td>
+            <td>Sayılar için <code>0</code>, boolean için <code>false</code></td>
+            <td><code>null</code> (Hiçbir adresi göstermiyor demektir)</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>Değer Tipi Kopyalama (Stack)</h4>
+        <pre><span class="type">int</span> a = <span class="number">10</span>;
+<span class="type">int</span> b = a;  <span class="comment">// Değerin kopyası alındı</span>
+b = <span class="number">20</span>;     <span class="comment">// b değişti</span>
+
+<span class="comment">// Sonuç: a hala 10'dur! (Birbirinden bağımsız)</span></pre>
+    </div>
+    <div class="card">
+        <h4>Referans Tipi Kopyalama (Heap)</h4>
+        <pre><span class="type">Calisan</span> c1 = <span class="keyword">new</span> <span class="type">Calisan</span>(); c1.Ad = <span class="string">"Ali"</span>;
+<span class="type">Calisan</span> c2 = c1; <span class="comment">// Aynı bellek adresi paylaşıldı</span>
+c2.Ad = <span class="string">"Veli"</span>;
+
+<span class="comment">// Sonuç: c1.Ad da "Veli" oldu! (Aynı nesne)</span></pre>
+    </div>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 1 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 2: FIELD, PROPERTY, KAPSÜLLEME & ERİŞİM BELİRLEYİCİLER -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>3. Field (Alan) ve Property (Özellik) Ayrımı</h2>
+<p>
+    Bir C# sınıfında veri saklamanın iki yolu vardır. Yeni başlayanların en sık karıştırdığı konulardan biri budur:
+</p>
+
+<ul>
+    <li><strong>Field (Alan / Düz Değişken):</strong> Sınıfın ham verisidir. Güvenlik filtresi yoktur. Dışarıya açık bırakılması önerilmez.</li>
+    <li><strong>Property (Özellik):</strong> Field'ın önüne konulan akıllı güvenlik kapısıdır. Dışarıdan değişken gibi görünür ama arka planda <code>get</code> ve <code>set</code> fonksiyonları çalıştırır.</li>
+</ul>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. Field (Düz Alan - Kontrolsüz)</h4>
+        <pre><span class="keyword">public class</span> <span class="type">Urun</span>
+{
+    <span class="comment">// Düz değişken: Herkes istediğini yazar!</span>
+    <span class="keyword">public decimal</span> Fiyat; 
+}
+
+<span class="comment">// Kullanımı:</span>
+<span class="type">Urun</span> u = <span class="keyword">new</span> <span class="type">Urun</span>();
+u.Fiyat = -<span class="number">500</span>; <span class="comment">// Negatif fiyat engellenemez!</span></pre>
+    </div>
+    <div class="card">
+        <h4>2. Property (Akıllı Özellik - Kontrollü)</h4>
+        <pre><span class="keyword">public class</span> <span class="type">Urun</span>
+{
+    <span class="keyword">private decimal</span> _fiyat; <span class="comment">// Gizli field</span>
+    <span class="keyword">public decimal</span> Fiyat    <span class="comment">// Güvenli property</span>
+    {
+        <span class="keyword">get</span> { <span class="keyword">return</span> _fiyat; }
+        <span class="keyword">set</span> { _fiyat = <span class="keyword">value</span> &lt; <span class="number">0</span> ? <span class="number">0</span> : <span class="keyword">value</span>; }
+    }
+}</pre>
+    </div>
+</div>
+
+<div class="warning-card">
+    <strong>⚠️ WinForms Geliştiricileri İçin Hayati Püf Noktası:</strong><br>
+    Formunuzdaki bir <code>DataGridView</code> tablosuna <code>dataGridView1.DataSource = calisanListesi;</code> dediğinizde, ekranda <strong>sadece Property olan üyeler sütun olarak listelenir!</strong> Düz Field olarak tanımladığınız değişkenler ekranda asla görünmez. Bu yüzden modellerinizde her zaman property kullanmalısınız.
+</div>
+
+<h2>4. Kapsülleme (Encapsulation), get/set ve `value` Mantığı</h2>
+<p>
+    Kapsülleme, bir nesnenin iç verilerini dış müdahalelerden koruma sanatıdır. PHP'deki <code>getAd()</code> ve <code>setAd()</code> fonksiyonlarının C#'taki karşılığıdır:
+</p>
+
+<div class="card">
+    <h4>Klasik Açık Yazım (Full Property) ve `value` Kelimesi</h4>
+    <pre><span class="keyword">public class</span> <span class="type">Calisan</span>
+{
+    <span class="keyword">private string</span> _ad; <span class="comment">// Backing Field: Veriyi bellekte saklayan gizli kasa</span>
+
+    <span class="keyword">public string</span> Ad    <span class="comment">// Dış dünyaya açılan kapı</span>
+    {
+        <span class="keyword">get</span> { <span class="keyword">return</span> _ad; }        <span class="comment">// Değer okunurken çalışır</span>
+        <span class="keyword">set</span> { _ad = <span class="keyword">value</span>.Trim(); } <span class="comment">// Değer atanırken çalışır ('value' atanan yeni veridir)</span>
+    }
+}</pre>
+</div>
+
+<div class="info-card">
+    <strong>💡 Otomatik Özellik Kısayolu (Auto-Property):</strong><br>
+    Eğer özel bir doğrulama şartı yoksa C# derleyicisi tek satırda yazmamıza izin verir: <code>public string Ad { get; set; } = "";</code><br>
+    Buradaki <code>= "";</code> başlangıç atamasıdır. Nesne oluşturulduğunda alanın <code>null</code> kalmasını engeller ve programın çökmesini önler.
+</div>
+
+<h2>5. Erişim Belirleyiciler (Access Modifiers)</h2>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">Belirleyici</th>
+            <th style="width: 42%;">Erişim Kapsamı</th>
+            <th style="width: 38%;">Günlük Hayat Benzetmesi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>public</code></strong></td>
+            <td>Dünyadaki herkese açık. Tüm projeler ve sınıflar erişebilir.</td>
+            <td>Şirketin <strong>ana giriş kapısı</strong> (Herkes girebilir).</td>
+        </tr>
+        <tr>
+            <td><strong><code>internal</code></strong></td>
+            <td><strong>Sadece aynı proje (aynı DLL / EXE)</strong> içindekiler erişebilir. Dış projeler göremez.</td>
+            <td>Şirketin <strong>personel yemekhanesi</strong> (Sadece çalışanlar).</td>
+        </tr>
+        <tr>
+            <td><strong><code>private</code></strong></td>
+            <td><strong>Yalnızca o sınıfın içi</strong> erişebilir. Aynı projedeki diğer sınıflar bile göremez.</td>
+            <td>Personelin <strong>kilitli şahsi çekmecesi</strong>.</td>
+        </tr>
+        <tr>
+            <td><strong><code>protected</code></strong></td>
+            <td>Sadece tanımlandığı sınıf ve o sınıftan <strong>miras alan alt sınıflar</strong> erişebilir.</td>
+            <td>Bir ailenin <strong>miras sandığı</strong> (Sadece çocuklar).</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 2 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 3: NAMESPACE (İSİM UZAYI) & USING MİMARİSİ -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>6. Namespace (İsim Uzayı) ve `using` Mimarisi</h2>
+<p>
+    Büyük projelerde onlarca klasör ve yüzlerce sınıf (class) bulunur. <strong>Namespace (İsim Uzayı)</strong>, aynı isimdeki sınıfların birbiriyle çakışmasını önleyen ve projeyi mantıksal bölümlere ayıran <strong>dijital soyadı / posta adresi</strong> sistemidir.
+</p>
+
+<div class="analogy-card">
+    <h4>🏷️ Günlük Hayat ve PHP Benzetmesi:</h4>
+    <p>
+        Bir okulda üç tane "Ali" isimli öğrenci olduğunu düşünün. Öğretmen sadece "Ali ayağa kalk" derse karmaşa çıkar. Ancak <strong>"Demir ailesinden Ali"</strong> veya <strong>"Yılmaz ailesinden Ali"</strong> dendiğinde kim olduğu kesinleşir. İşte <code>namespace Teknik_Servis_Yönetim.Models</code> bir ailenin soyadı gibidir.<br>
+        <strong>PHP Karşılaştırması:</strong> PHP'deki <code>namespace App\Models;</code> ve <code>use App\Models\Calisan;</code> yapısının C#'taki birebir karşılığıdır: <code>namespace Teknik_Servis_Yönetim.Models;</code> ve <code>using Teknik_Servis_Yönetim.Models;</code>.
+    </p>
+</div>
+
+<h3>A) "Dosyayı Yeni Klasöre Taşıdım, Kod Neden Hata Vermedi / `using` İstemedik?"</h3>
+<p>
+    Yeni başlayanların en sık karşılaştığı kafa karışıklığı şudur: <em>"Ben bir UserControl dosyasını UserControls klasörüne taşıdım ama ana form hala using eklemeden bu sınıfı gördü, neden?"</em>
+</p>
+
+<div class="warning-card">
+    <strong>⚠️ Kritik Kural: Fiziksel Klasör ≠ Mantıksal Namespace!</strong>
+    <ul>
+        <li>C#'ta bir dosyayı Windows Gezgini'nde veya Visual Studio'da yeni bir klasöre taşımak, <strong>o dosyanın namespace'ini otomatik olarak DEĞİŞTİRMEZ!</strong></li>
+        <li>Dosyanın en üstünde hala <code>namespace Teknik_Servis_Yönetim</code> yazıyorsa, dosya hangi klasörün içinde olursa olsun projenin ana kök çatısındadır.</li>
+        <li>Diğer sınıfların <code>using</code> istemesi için, taşınan dosyanın içindeki namespace satırını da elle <code>namespace Teknik_Servis_Yönetim.UserControls</code> olarak güncellemeniz gerekir.</li>
+    </ul>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. Uzun Yol (Tam Adres / Fully Qualified)</h4>
+        <p style="margin:0 0 2px 0;">Namespace köprüsü kurmadan doğrudan soyadıyla çağırmak:</p>
+        <pre style="margin:0;"><span class="comment">// Her yerde uzun uzun tam adres yazılır:</span>
+<span class="type">Teknik_Servis_Yönetim.UserControls.UcCalisanListesi</span> uc = 
+    <span class="keyword">new</span> <span class="type">Teknik_Servis_Yönetim.UserControls.UcCalisanListesi</span>();</pre>
+    </div>
+    <div class="card">
+        <h4>2. Kısa Yol (`using` ile Köprü Kurma)</h4>
+        <p style="margin:0 0 2px 0;">Dosyanın en tepesine `using` ekleyerek kestirme yol açmak:</p>
+        <pre style="margin:0;"><span class="comment">// Dosyanın en başında 1 defa köprü açılır:</span>
+<span class="keyword">using</span> <span class="type">Teknik_Servis_Yönetim.UserControls</span>;
+
+<span class="comment">// Artık kod içinde tek isimle kullanılır:</span>
+<span class="type">UcCalisanListesi</span> uc = <span class="keyword">new</span> <span class="type">UcCalisanListesi</span>();</pre>
+    </div>
+</div>
+
+<h3>B) WinForms Geliştiricileri İçin Hayati Tehlike: `partial class` ve `.Designer.cs`</h3>
+<div class="info-card">
+    <strong>🚨 Dikkat: Bir Form/UserControl İki Parçadan Oluşur!</strong><br>
+    Windows Forms'ta örneğin <code>UcCalisanListesi</code> kontrolü fiziki olarak iki dosyadır:
+    <ol style="margin-top:3px; margin-bottom:3px;">
+        <li><code>UcCalisanListesi.cs</code> (Sizin yazdığınız iş kodları)</li>
+        <li><code>UcCalisanListesi.Designer.cs</code> (Visual Studio'nun butonları ve kutuları çizdiği otomatik kodlar)</li>
+    </ol>
+    Bu iki dosya <code>partial class</code> (parçalı sınıf) anahtar kelimesiyle birbirine bağlanır. <strong>Eğer ana <code>.cs</code> dosyasının namespace'ini değiştirip <code>.Designer.cs</code> dosyasını eski haliyle bırakırsanız;</strong> derleyici bu iki yarının aynı sınıf olduğunu anlayamaz, <code>InitializeComponent()</code> kaybolur ve derleme hataları oluşur. Bir formu taşırken her iki dosyanın da namespace'ini birebir aynı yapmalısınız!
+</div>
+
+<div class="card" style="margin-top:6px;">
+    <strong>💡 Modern C# 10 Yeniliği: File-Scoped Namespace (Dosya Kapsamlı Namespace):</strong><br>
+    Eski C#'ta tüm kodlar <code>namespace X { ... }</code> süslü parantezleri içine alınırdı ve 1 tab sağa kayardı. Modern C#'ta dosyanın en üstüne noktalı virgülle <code>namespace Teknik_Servis_Yönetim.Models;</code> yazmak yeterlidir; fazladan süslü parantez karmaşasını ortadan kaldırır.
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 3 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 4: MODERN SÖZDİZİMİ, REF/OUT & METOTLAR -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>7. Modern C# Sözdizimi Şekerleri (Syntactic Sugar)</h2>
+<p>
+    C#'ta kodu kısaltmak ve okunabilirliği artırmak için kullanılan pratik yazım kuralları:
+</p>
+
+<h3>A) `=>` (Fat Arrow / Expression-Bodied Members) Kısaltması</h3>
+<p>
+    Tek satırlık metot veya özelliklerde süslü parantez (<code>{ }</code>) ve <code>return</code> yazma zahmetini ortadan kaldırır:
+</p>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>Geleneksel Yazım (Klasik Açık Yol)</h4>
+        <pre><span class="keyword">public bool</span> <span class="highlight">GecerliMi</span>()
+{
+    <span class="keyword">if</span> (Hatalar.Count == <span class="number">0</span>)
+        <span class="keyword">return true</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return false</span>;
+}
+
+<span class="keyword">public string</span> TamAd
+{
+    <span class="keyword">get</span> { <span class="keyword">return</span> Ad + <span class="string">" "</span> + Soyad; }
+}</pre>
+    </div>
+    <div class="card">
+        <h4>Modern Kısayol (`=>` ile)</h4>
+        <pre><span class="comment">// Tek satırlık metot:</span>
+<span class="keyword">public bool</span> <span class="highlight">GecerliMi</span>() =&gt; Hatalar.Count == <span class="number">0</span>;
+
+
+<span class="comment">// Tek satırlık salt-okunur Property:</span>
+<span class="keyword">public string</span> TamAd =&gt; Ad + <span class="string">" "</span> + Soyad;</pre>
+    </div>
+</div>
+
+<h3>B) Sayısal Ekler (Suffixes) — `1200m` Kodundaki `m` Harfi Nedir?</h3>
+<p>
+    C#'ta yazılan ondalıklı sayılar varsayılan olarak <code>double</code> kabul edilir. Muhasebe ve para hesaplarında yuvarlama hatası yapmayan yüksek duyarlıklı <strong><code>decimal</code></strong> tipini belirtmek için sayının sonuna mutlaka <strong>`m`</strong> (Money) eklenmelidir:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 15%;">Ek</th>
+            <th style="width: 20%;">Veri Tipi</th>
+            <th style="width: 25%;">Örnek Kod</th>
+            <th style="width: 40%;">Kullanım Amacı</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>m</code> / <code>M</code></strong></td>
+            <td><code>decimal</code> (128-bit)</td>
+            <td><code>decimal maas = 25000.50m;</code></td>
+            <td>Para birimleri, maaş, muhasebe ve finans hesaplamaları.</td>
+        </tr>
+        <tr>
+            <td><strong><code>f</code> / <code>F</code></strong></td>
+            <td><code>float</code> (32-bit)</td>
+            <td><code>float oran = 3.14f;</code></td>
+            <td>Grafik, oyun motorları ve düşük bellekli kayan nokta sayıları.</td>
+        </tr>
+        <tr>
+            <td><strong><code>d</code> / <code>D</code></strong></td>
+            <td><code>double</code> (64-bit)</td>
+            <td><code>double pi = 3.14159;</code></td>
+            <td>Bilimsel ve genel mühendislik hesaplamaları (Varsayılandır).</td>
+        </tr>
+        <tr>
+            <td><strong><code>L</code></strong></td>
+            <td><code>long</code> (64-bit)</td>
+            <td><code>long tcNo = 12345678901L;</code></td>
+            <td>Standart int (2 milyar) sınırını aşan büyük tam sayılar.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>C) String Interpolation (`$""`) ile Temiz Metin Formatlama</h3>
+<pre><span class="comment">// Eski Yol (+ ile birleştirme):</span>
+string mesaj = "Çalışan: " + ad + " " + soyad + ", Maaş: " + maas.ToString();
+
+<span class="comment">// Modern Yol ($"" ile doğrudan içine yazma):</span>
+string mesaj = <span class="string">$"Çalışan: {ad} {soyad}, Maaş: {maas:C2}, Tarih: {DateTime.Today:dd.MM.yyyy}"</span>;
+<span class="comment">// ':C2' parayı otomatik olarak TL (₺) formatında yazar. ':dd.MM.yyyy' tarihi gün.ay.yıl yapar.</span></pre>
+
+<h2>8. Metot Parametreleri: Normal, `ref` ve `out` Farkı</h2>
+<div class="grid-2">
+    <div class="card">
+        <h4>Normal Aktarım (Değer Kopyalanır)</h4>
+        <pre><span class="keyword">void</span> <span class="highlight">Arttir</span>(<span class="type">int</span> sayi) { sayi += <span class="number">5</span>; }
+
+<span class="type">int</span> x = <span class="number">10</span>;
+<span class="highlight">Arttir</span>(x);
+<span class="comment">// x hala 10'dur! Kopya değişti, orijinal kaldı.</span></pre>
+    </div>
+    <div class="card">
+        <h4>`out` Parametresi (Çıktı Kanalı)</h4>
+        <pre><span class="keyword">bool</span> <span class="highlight">Bol</span>(<span class="type">int</span> a, <span class="type">int</span> b, <span class="keyword">out int</span> bolum)
+{
+    bolum = a / b; <span class="comment">// Değer atamak ZORUNLUDUR</span>
+    <span class="keyword">return true</span>;
+}
+<span class="highlight">Bol</span>(<span class="number">10</span>, <span class="number">2</span>, <span class="keyword">out int</span> sonuc); <span class="comment">// sonuc = 5 olur!</span></pre>
+    </div>
+</div>
+
+<div class="info-card">
+    <strong>💡 `TryParse` Güvenliği:</strong> TextBox'tan sayı alırken <code>Convert.ToInt32()</code> kullanırsanız kullanıcı harf yazdığında program çöker. Bunun yerine çökme riskini sıfırlayan <code>int.TryParse(txt.Text, out int sayi)</code> kullanın. Sayı geçerliyse <code>true</code> döner ve sayıyı <code>out</code> değişkenine doldurur!
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 4 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 5: OOP 4 DİREK, KOLEKSİYONLAR & WINFORMS -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>9. Nesne Yönelimli Programlamanın (OOP) 4 Temel Direği</h2>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. Kapsülleme (Encapsulation)</h4>
+        <p style="margin:0 0 2px 0;">Veriyi gizleyip kontrollü property ile sunma.</p>
+        <pre style="margin:0;"><span class="keyword">public class</span> <span class="type">Hesap</span> {
+    <span class="keyword">private decimal</span> _bakiye;
+    <span class="keyword">public decimal</span> Bakiye =&gt; _bakiye;
+}</pre>
+    </div>
+    <div class="card">
+        <h4>2. Kalıtım (Inheritance)</h4>
+        <p style="margin:0 0 2px 0;">Ortak özellikleri üst sınıftan miras alma.</p>
+        <pre style="margin:0;"><span class="keyword">public class</span> <span class="type">Personel</span> { <span class="keyword">public string</span> Ad { <span class="keyword">get</span>; <span class="keyword">set</span>; } }
+<span class="keyword">public class</span> <span class="type">Teknisyen</span> : <span class="type">Personel</span> { <span class="keyword">public string</span> Brans { <span class="keyword">get</span>; <span class="keyword">set</span>; } }</pre>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>3. Çok Biçimlilik (Polymorphism)</h4>
+        <p style="margin:0 0 2px 0;">Üst sınıftaki davranışı alt sınıfta ezme (`override`).</p>
+        <pre style="margin:0;"><span class="keyword">public class</span> <span class="type">Cihaz</span> {
+    <span class="keyword">public virtual void</span> <span class="highlight">Calis</span>() { }
+}
+<span class="keyword">public class</span> <span class="type">Yazici</span> : <span class="type">Cihaz</span> {
+    <span class="keyword">public override void</span> <span class="highlight">Calis</span>() =&gt; Console.WriteLine(<span class="string">"Yazdırıyor..."</span>);
+}</pre>
+    </div>
+    <div class="card">
+        <h4>4. Soyutlama (Abstraction & Interface)</h4>
+        <p style="margin:0 0 2px 0;">Yapılacak işlerin şablonunu/sözleşmesini belirleme.</p>
+        <pre style="margin:0;"><span class="keyword">public interface</span> <span class="type">ICalisanRepository</span> {
+    <span class="keyword">bool</span> <span class="highlight">Ekle</span>(<span class="type">Calisan</span> calisan);
+}
+<span class="keyword">public class</span> <span class="type">CalisanRepository</span> : <span class="type">ICalisanRepository</span> {
+    <span class="keyword">public bool</span> <span class="highlight">Ekle</span>(<span class="type">Calisan</span> c) { <span class="comment">/* SQL */</span> <span class="keyword">return true</span>; }
+}</pre>
+    </div>
+</div>
+
+<h2>10. Generic Koleksiyonlar (`List&lt;T&gt;`) ve İstisna Yönetimi</h2>
+<div class="grid-2">
+    <div class="card">
+        <h4>`List&lt;T&gt;` (Tip Güvenli Dinamik Liste)</h4>
+        <p style="margin:0 0 2px 0;">Eski diziler gibi sabit boyutlu değildir; dinamik büyür:</p>
+        <pre style="margin:0;"><span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; liste = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt;();
+liste.Add(<span class="keyword">new</span> <span class="type">Calisan</span> { Ad = <span class="string">"Ahmet"</span> });
+liste.RemoveAt(<span class="number">0</span>); <span class="comment">// 0. elemanı sil</span>
+<span class="type">int</span> toplam = liste.Count; <span class="comment">// Eleman sayısı</span></pre>
+    </div>
+    <div class="card">
+        <h4>`try-catch-finally` ve `using` Güvencesi</h4>
+        <p style="margin:0 0 2px 0;">Programın çalışma anında çökmesini engeller:</p>
+        <pre style="margin:0;"><span class="keyword">try</span> {
+    conn.Open(); <span class="comment">// Riskli işlem</span>
+} <span class="keyword">catch</span> (<span class="type">Exception</span> ex) {
+    MessageBox.Show(<span class="string">$"Hata: {ex.Message}"</span>);
+} <span class="keyword">finally</span> {
+    conn.Close(); <span class="comment">// Her durumda çalışır</span>
+}</pre>
+    </div>
+</div>
+
+<h2>11. Masaüstü Uygulamalarında Oturum Yönetimi (Session)</h2>
+<p>
+    Web projelerinde PHP veya ASP.NET'te oturum bilgisi <code>$_SESSION</code> dizisinde saklanır. Windows Forms masaüstü uygulamalarında ise oturum bilgisi <strong><code>static class Oturum</code></strong> mimarisi ile yönetilir:
+</p>
+
+<div class="card">
+    <h4>Temiz ve Güvenli Oturum Mimarisi:</h4>
+    <pre><span class="keyword">public static class</span> <span class="type">Oturum</span>
+{
+    <span class="comment">// Giriş yapan çalışanın tüm nesnesi burada saklanır:</span>
+    <span class="keyword">public static</span> <span class="type">Calisan</span>? AktifCalisan { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="comment">// Oturum açık mı kontrolü (Salt-okunur lambda property):</span>
+    <span class="keyword">public static bool</span> GirisYapildiMi =&gt; AktifCalisan != <span class="keyword">null</span>;
+
+    <span class="comment">// Güvenli çıkış yapma:</span>
+    <span class="keyword">public static void</span> CikisYap() =&gt; AktifCalisan = <span class="keyword">null</span>;
+}</pre>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. Giriş Formunda (Login):</h4>
+        <pre><span class="comment">// Başarılı girişten sonra:</span>
+<span class="type">Calisan</span> bulunan = _service.GirisYap(tc, sifre);
+<span class="type">Oturum</span>.AktifCalisan = bulunan;
+
+<span class="comment">// Ana formu aç</span>
+<span class="keyword">new</span> <span class="type">form_anasayfa</span>().Show();</pre>
+    </div>
+    <div class="card">
+        <h4>2. Herhangi Bir Form / UserControl İçinde:</h4>
+        <pre><span class="comment">// Artık projenin her yerinden doğrudan erişilebilir:</span>
+lbl_kullanici.Text = <span class="string">$"Hoş geldin, {Oturum.AktifCalisan?.Ad}"</span>;
+
+<span class="keyword">if</span> (<span class="type">Oturum</span>.AktifCalisan?.Yetki != <span class="string">"Yönetici"</span>)
+    btn_calisan_sil.Enabled = <span class="keyword">false</span>; <span class="comment">// Yetki kısıtlama</span></pre>
+    </div>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 5 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 6: KAYNAK YÖNETİMİ (USING) & LINQ İLE FİLTRELEME -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>12. `using` Deyimi ve Kaynak Yönetimi (Resource Management)</h2>
+<p>
+    C#'ta <code>using</code> anahtar kelimesi iki tamamen farklı amaçla kullanılır. Bu ayrımı bilmek bellek sızıntılarını ve veritabanı kilitlenmelerini önlemenin anahtarıdır:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 24%;">Kullanım Şekli</th>
+            <th style="width: 36%;">Kod Örneği</th>
+            <th style="width: 40%;">Görevi ve Çalışma Mantığı</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1. using Direktifi</strong><br>(Namespace Köprüsü)</td>
+            <td><code>using System.Data;</code><br><code>using Teknik_Servis.Models;</code></td>
+            <td>Dosyanın en tepesine yazılır. Başka bir isim uzayındaki sınıfları projeye dahil eder, uzun uzun adres yazmayı engeller.</td>
+        </tr>
+        <tr>
+            <td><strong>2. using Deyimi</strong><br>(Kaynak Temizleme)</td>
+            <td><code>using (var conn = ...) { }</code><br><code>using var cmd = ...;</code></td>
+            <td>Metot içinde yazılır. İşi biten veritabanı bağlantısı veya dosya akışı gibi harici sistem kaynaklarını anında bellekten siler (<code>Dispose</code> eder).</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="warning-card">
+    <strong>⚠️ Neden `conn.Close()` Tek Başına Yetersizdir? (Bağlantı Havuzunun Tükenmesi):</strong><br>
+    Veritabanına <code>conn.Open()</code> dedikten sonra aradaki SQL kodunda beklenmeyen bir hata (hata fırlatma / Exception) olursa, aşağıdaki <code>conn.Close()</code> satırına <strong>asla ulaşılamaz!</strong> Bağlantı MySQL sunucusunda açık asılı kalır. Birkaç kullanıcı işlem yaptığında MySQL <em>"Too many connections"</em> (Çok fazla bağlantı) hatası verir ve tüm program kilitlenir!
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>Arka Plandaki Sır: `try-finally` ve `Dispose()`</h4>
+        <p style="margin:0 0 2px 0;">C# derleyicisi <code>using</code> bloğunu otomatik olarak şu koda çevirir:</p>
+        <pre style="margin:0;"><span class="type">MySqlConnection</span> conn = <span class="keyword">new</span> <span class="type">MySqlConnection</span>(...);
+<span class="keyword">try</span>
+{
+    conn.Open();
+    <span class="comment">// Riskli SQL işlemleri...</span>
+}
+<span class="keyword">finally</span>
+{
+    <span class="comment">// Hata çıksa da çıkmasa da KESİNLİKLE kapanır!</span>
+    conn.Dispose(); 
+}</pre>
+    </div>
+    <div class="card">
+        <h4>Modern C# Yazımı: `using var` Bildirimi</h4>
+        <p style="margin:0 0 2px 0;">Süslü parantez kirliliğini önleyen modern C# 8+ tek satır yazımı:</p>
+        <pre style="margin:0;"><span class="keyword">public bool</span> <span class="highlight">Guncelle</span>(<span class="type">Calisan</span> c)
+{
+    <span class="comment">// Süslü parantez açmaya gerek yoktur:</span>
+    <span class="keyword">using var</span> conn = VeritabaniBaglanti.BaglantiGetir();
+    <span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+
+    conn.Open();
+    <span class="keyword">return</span> cmd.ExecuteNonQuery() &gt; <span class="number">0</span>;
+    <span class="comment">// Metot bittiği an her iki nesne de otomatik kapatılır!</span>
+}</pre>
+    </div>
+</div>
+
+<h2>13. LINQ ile Filtreleme, Sıralama ve Sorgulama (Döngü Hamallığına Son)</h2>
+<p>
+    <strong>LINQ (Language Integrated Query)</strong>, C# koleksiyonları (<code>List&lt;T&gt;</code>) üzerinde SQL yazıyormuş gibi filtreleme, arama ve sıralama yapmayı sağlayan güçlü bir teknolojidir.
+</p>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>Eski Yol: 8 Satırlık Döngü Hamallığı</h4>
+        <pre style="margin:0;"><span class="comment">// Teknisyenleri bulup listelemek:</span>
+<span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; filtreli = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt;();
+<span class="keyword">foreach</span> (<span class="type">var</span> c <span class="keyword">in</span> tumCalisanlar)
+{
+    <span class="keyword">if</span> (c.Yetki == <span class="string">"Teknisyen"</span> &amp;&amp; c.Maas &gt; <span class="number">20000m</span>)
+    {
+        filtreli.Add(c);
+    }
+}</pre>
+    </div>
+    <div class="card">
+        <h4>Modern LINQ: Tek Satırda Temiz Kod</h4>
+        <pre style="margin:0;"><span class="comment">// Aynı iş tek bir akıcı satırda:</span>
+<span class="type">var</span> filtreli = tumCalisanlar
+    .Where(c =&gt; c.Yetki == <span class="string">"Teknisyen"</span> &amp;&amp; c.Maas &gt; <span class="number">20000m</span>)
+    .OrderBy(c =&gt; c.Ad)
+    .ToList();</pre>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">LINQ Metodu</th>
+            <th style="width: 18%;">SQL Karşılığı</th>
+            <th style="width: 35%;">Örnek C# Kullanımı</th>
+            <th style="width: 27%;">Açıklama / Döndürdüğü Değer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>.Where(...)</code></strong></td>
+            <td><code>WHERE</code></td>
+            <td><code>liste.Where(c =&gt; c.AktifMi == true)</code></td>
+            <td>Şarta uyan tüm elemanları süzer (filtreler).</td>
+        </tr>
+        <tr>
+            <td><strong><code>.OrderBy(...)</code></strong></td>
+            <td><code>ORDER BY ASC</code></td>
+            <td><code>liste.OrderBy(c =&gt; c.Maas)</code></td>
+            <td>Küçükten büyüğe sıralar (Tersi: <code>OrderByDescending</code>).</td>
+        </tr>
+        <tr>
+            <td><strong><code>.Select(...)</code></strong></td>
+            <td><code>SELECT</code></td>
+            <td><code>liste.Select(c =&gt; c.Ad).ToList()</code></td>
+            <td>Nesnelerin sadece istenen alanını çekip yeni liste yapar.</td>
+        </tr>
+        <tr>
+            <td><strong><code>.FirstOrDefault(...)</code></strong></td>
+            <td><code>LIMIT 1</code></td>
+            <td><code>liste.FirstOrDefault(c =&gt; c.Id == 5)</code></td>
+            <td>İlk eşleşeni bulur; liste boşsa çökmez, <code>null</code> döner.</td>
+        </tr>
+        <tr>
+            <td><strong><code>.Any(...)</code></strong></td>
+            <td><code>EXISTS</code></td>
+            <td><code>liste.Any(c =&gt; c.Tc == "12345678901")</code></td>
+            <td>Şarta uyan kayıt var mı bakar; <strong><code>true</code> / <code>false</code></strong> döner.</td>
+        </tr>
+        <tr>
+            <td><strong><code>.Count()</code> / <code>.Sum()</code></strong></td>
+            <td><code>COUNT / SUM</code></td>
+            <td><code>liste.Sum(c =&gt; c.Maas)</code></td>
+            <td>Eleman sayısını veya toplam maaşı hesaplar.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="info-card">
+    <strong>💡 Sonda Neden `.ToList()` Yazarız? (Ertelenmiş Çalışma - Deferred Execution):</strong><br>
+    LINQ sorguları <code>.ToList()</code> veya <code>.FirstOrDefault()</code> gibi bir sonuç metodu çağrılana kadar bellekte işlem yapmaz; sadece bir "plan" olarak bekler. Sonuna <code>.ToList()</code> yazdığınız anda filtreleme motoru çalışır ve verileri bellekte somut bir <code>List&lt;T&gt;</code> haline getirir.
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 6 / 6</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Yazılımda Çok Katmanlı Mimari (N-Layer) Rehberi</title>
+<style>
+    @page {
+        size: A4;
+        margin: 12mm 14mm 12mm 14mm;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        background-color: #ffffff;
+        line-height: 1.48;
+        font-size: 9.5pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Başlık ve Kapak Alanı */
+    .header-box {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        color: #ffffff;
+        padding: 16px 20px;
+        border-radius: 8px;
+        margin-bottom: 14px;
+    }
+
+    .header-box h1 {
+        margin: 0 0 4px 0;
+        font-size: 18pt;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .header-box .subtitle {
+        margin: 0 0 8px 0;
+        font-size: 10.5pt;
+        color: #bfdbfe;
+    }
+
+    .header-box .meta {
+        font-size: 8pt;
+        color: #93c5fd;
+        display: flex;
+        gap: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 6px;
+    }
+
+    h2 {
+        color: #1e3a8a;
+        font-size: 12pt;
+        font-weight: 700;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 4px;
+        margin-top: 14px;
+        margin-bottom: 8px;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        color: #2563eb;
+        font-size: 10pt;
+        font-weight: 600;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+    }
+
+    p {
+        margin: 0 0 6px 0;
+        text-align: justify;
+    }
+
+    .card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-left: 5px solid #16a34a;
+        border-radius: 6px;
+        padding: 10px 14px;
+        margin: 10px 0;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card h4 {
+        margin: 0 0 6px 0;
+        color: #15803d;
+        font-size: 10pt;
+    }
+
+    .warning-card {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-left: 5px solid #d97706;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .info-card {
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-left: 5px solid #3b82f6;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 8px 0;
+        page-break-inside: avoid;
+    }
+
+    .flow-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 10px 0;
+        page-break-inside: avoid;
+    }
+
+    .layer-box {
+        display: flex;
+        border-radius: 5px;
+        border: 1px solid #cbd5e1;
+        overflow: hidden;
+    }
+
+    .layer-badge {
+        width: 140px;
+        padding: 8px;
+        font-weight: 700;
+        font-size: 8.5pt;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
+
+    .layer-content {
+        flex: 1;
+        padding: 6px 10px;
+        background: #ffffff;
+        font-size: 8.5pt;
+    }
+
+    .layer-ui .layer-badge { background-color: #7c3aed; }
+    .layer-validator .layer-badge { background-color: #ea580c; }
+    .layer-service .layer-badge { background-color: #0284c7; }
+    .layer-repo .layer-badge { background-color: #059669; }
+    .layer-db .layer-badge { background-color: #475569; }
+    .layer-model .layer-badge { background-color: #d97706; }
+
+    .arrow-indicator {
+        text-align: center;
+        font-size: 9pt;
+        color: #64748b;
+        margin: -2px 0;
+        font-weight: 600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        font-size: 8.5pt;
+        page-break-inside: avoid;
+    }
+
+    table th, table td {
+        border: 1px solid #cbd5e1;
+        padding: 6px 8px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+
+    pre, code {
+        font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    pre {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        padding: 8px 10px;
+        border-radius: 5px;
+        font-size: 8pt;
+        overflow-x: auto;
+        line-height: 1.35;
+        margin: 6px 0;
+        page-break-inside: avoid;
+    }
+
+    .highlight { color: #38bdf8; }
+    .keyword { color: #f472b6; }
+    .string { color: #4ade80; }
+    .comment { color: #94a3b8; font-style: italic; }
+
+    ul, ol {
+        margin: 0 0 6px 0;
+        padding-left: 18px;
+    }
+
+    li {
+        margin-bottom: 3px;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .footer {
+        margin-top: 10px;
+        padding-top: 6px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 7.5pt;
+        color: #64748b;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+</head>
+<body>
+
+<!-- SAYFA 1 -->
+<div class="header-box">
+    <h1>Yazılımda Çok Katmanlı Mimari Ders Notu</h1>
+    <div class="subtitle">C# Windows Forms & MySQL ile Uygulamalı Mimari Tasarım Rehberi</div>
+    <div class="meta">
+        <span>👨‍🏫 <strong>Seviye:</strong> Temel & Orta Seviye (Başlangıç Dostu)</span>
+        <span>🏛️ <strong>Sıralama:</strong> UI ➡️ Validator ➡️ Service ➡️ Repository ➡️ Database</span>
+    </div>
+</div>
+
+<h2>1. Neden Katmanlı Mimariye İhtiyaç Duyarız?</h2>
+<p>
+    Yazılıma ilk başladığımızda en kolay yol bir butona çift tıklayıp tüm kodları o butonun içine yazmaktır. Ancak butonun içine hem tasarım kodlarını, hem `if` kontrollerini, hem de SQL sorgularını yazarsak ortaya <strong>"Spagetti Kod" (Spaghetti Code)</strong> çıkar.
+</p>
+
+<div class="warning-card">
+    <strong>⚠️ Spagetti Kod Neden Büyük Bir Tehlikedir?</strong>
+    <ul>
+        <li><strong>Kod Tekrarı (DRY İhlali):</strong> Aynı SQL sorgusunu veya TC kontrolünü 5 farklı formda kullanmak gerekirse, aynı kodları kopyala-yapıştır yapmak zorunda kalırsınız.</li>
+        <li><strong>Değişiklik Zorluğu:</strong> Veritabanında bir tablonun adı veya kuralı değiştiğinde projedeki onlarca formu tek tek arayıp düzeltmeniz gerekir.</li>
+        <li><strong>Okunabilirlik Sıfır:</strong> Butonun içinde 100 satır karmaşık kod olması hata ayıklamayı ve ekip çalışmasını imkansızlaştırır.</li>
+    </ul>
+</div>
+<p>
+    <strong>Çözüm:</strong> Sorumlulukların Ayrılması ilkesidir <em>(Separation of Concerns)</em>. Her işi tek bir yere yığmak yerine, sistemi kendi uzmanlık alanından sorumlu "katmanlara" böleriz.
+</p>
+
+<h2>2. Günlük Hayattan Bir Benzetme: "Restoran Modeli"</h2>
+<p>
+    Nesne Yönelimli Programlamanın (OOP) terimlerine boğulmadan önce bir restoranın işleyişini düşünelim. Restoranda kimse her işi tek başına yapmaz:
+</p>
+
+<div class="analogy-card">
+    <h4>🍽️ Restorandaki Görev Dağılımı ve Bizim Yazılım Katmanlarımız:</h4>
+    <ul>
+        <li><strong>Müşteri:</strong> Programı kullanan son kullanıcıdır. Formu doldurur ve sonucu bekler.</li>
+        <li><strong>Garson (Sunum / UI Katmanı - <code>UcCalisanEkle</code>):</strong> Müşteriden siparişi alır, mutfağa teslim eder ve pişen yemeği müşteriye getirir. Garson asla mutfağa girip et pişirmez veya depoya inip pirinç taşımaz!</li>
+        <li><strong>Sipariş Müfettişi / Gıda Denetçisi (Validator - <code>CalisanValidator</code>):</strong> Siparişi ilk denetleyen kişidir: <em>"Müşteri 18 yaşından küçük mü?", "Boş alan bırakılmış mı?", "Sipariş kurallara uygun mu?"</em> Hata varsa sipariş mutfağa hiç girmez.</li>
+        <li><strong>Aşçıbaşı / Mutfak Şefi (Servis Katmanı - <code>CalisanService</code>):</strong> Denetimden geçen siparişin mutfaktaki tüm sürecini yönetir. İş kurallarını uygular (mükerrer sipariş kontrolü vb.), garnitürleri hazırlar ve depocuya malzeme listesini teslim eder.</li>
+        <li><strong>Kiler / Depo Görevlisi (Repository - <code>CalisanRepository</code>):</strong> Şefin onayladığı malzemeyi depodan (MySQL) getiren veya depoya yerleştiren kişidir. Arayüzü veya müşteriyi tanımaz.</li>
+        <li><strong>Yemek Tepsisi / Sipariş Fişi (Model - <code>Calisan</code>):</strong> Garson, şef ve depocu arasında taşınan standart tabaktır. İçinde veri taşır ama kendisi iş yapmaz.</li>
+        <li><strong>Kiler / Depo (MySQL Veritabanı):</strong> Tüm kayıtların kalıcı saklandığı fiziksel yerdir.</li>
+    </ul>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Ders Notları</span>
+    <span>Sayfa 1 / 4</span>
+</div>
+
+<!-- SAYFA 2 -->
+<div class="page-break"></div>
+
+<h2>3. C#'ta Karşılaşılan Temel Kavramlar (Öğrenci Kılavuzu)</h2>
+<p>
+    C# dilini ve katmanlı mimariyi rahatça anlayabilmek için sıkça karşımıza çıkan şu 4 kavramı bilmek gerekir:
+</p>
+
+<h3>A) Property Nedir ve Neden `{ get; set; }` Yazarız?</h3>
+<p>
+    PHP veya geleneksel dillerde sınıflardaki değişkenleri korumak için <code>getAd()</code> ve <code>setAd()</code> şeklinde iki ayrı fonksiyon yazılır. C#'ta ise dışarıdan bakıldığında <strong>düz bir değişken</strong> gibi duran ama arka planda <strong>metot</strong> gibi çalışan <strong>Property (Özellik)</strong> yapısı vardır:
+</p>
+
+<div class="card">
+    <strong>Açık Hali (Klasik Yol):</strong>
+    <pre>
+<span class="keyword">private string</span> ad; <span class="comment">// Gizli değişken (Field)</span>
+<span class="keyword">public string</span> Ad   <span class="comment">// Dışarıya açık kapı (Property)</span>
+{
+    <span class="keyword">get</span> { <span class="keyword">return</span> ad; }       <span class="comment">// Okunurken çalışır (PHP'deki getAd())</span>
+    <span class="keyword">set</span> { ad = <span class="keyword">value</span>; }      <span class="comment">// Atanırken çalışır (PHP'deki setAd())</span>
+}</pre>
+    <strong>Kısayol Hali (Otomatik Property):</strong><br>
+    Özel bir şart yoksa C# bunu tek satırda yazmamıza izin verir:
+    <pre><span class="keyword">public string</span> Ad { <span class="keyword">get</span>; <span class="keyword">set</span>; } <span class="comment">// get = Okumaya izin ver, set = Değiştirmeye izin ver</span></pre>
+</div>
+
+<h3>B) `static` Anahtar Kelimesi Ne İşe Yarar?</h3>
+<p>
+    Normal sınıfları kullanmak için önce <code>new</code> ile nesne üretmek gerekir (Örn: <code>Calisan c = new Calisan();</code>).<br>
+    Fakat <strong><code>static</code></strong> olarak tanımlanan bir sınıf veya metot (Örn: <code>VeritabaniBaglanti.BaglantiGetir()</code>) için <code>new</code> yapmaya gerek yoktur. Programın her yerinden doğrudan <code>SinifAdi.MetotAdi()</code> şeklinde ortak olarak çağrılabilir.
+</p>
+
+<h3>C) `using` Bloğu Neden Hayatidir?</h3>
+<p>
+    Veritabanı bağlantısı açtığımızda bu bağlantı sunucuda yer kaplar. Eğer işimiz bittiğinde kapatmayı unutursak bir süre sonra veritabanı kilitlenir. 
+    <code>using (MySqlConnection conn = ...) { ... }</code> bloğu, kodun içinde hata çıksa bile süslü parantez bittiği anda veritabanı bağlantısını <strong>otomatik ve güvenli şekilde kapatır.</strong>
+</p>
+
+<h3>D) Neden SQL Sorgularında `@parametre` Kullanıyoruz?</h3>
+<div class="warning-card">
+    ❌ <strong>YANLIŞ VE TEHLİKELİ (String Birleştirme):</strong><br>
+    <code>"INSERT INTO calisanlar VALUES ('" + txt_ad.Text + "')"</code><br>
+    Kullanıcı ad kutusuna tırnak işareti veya zararlı bir SQL komutu yazarsa veritabanınız silinebilir (<strong>SQL Injection</strong> açığı).<br><br>
+    ✅ <strong>DOĞRU VE GÜVENLİ (Parametreli Sorgu):</strong><br>
+    <code>cmd.CommandText = "INSERT INTO calisanlar (ad) VALUES (@ad);";</code><br>
+    <code>cmd.Parameters.AddWithValue("@ad", calisan.Ad);</code><br>
+    MySQL gelen veriyi sadece düz metin olarak algılar; asla komut olarak çalıştırmaz.
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Ders Notları</span>
+    <span>Sayfa 2 / 4</span>
+</div>
+
+<!-- SAYFA 3 -->
+<div class="page-break"></div>
+
+<h2>4. Projemizdeki 5 Katman ve Görev Sıralaması</h2>
+
+<div class="flow-container">
+    <div class="layer-box layer-ui">
+        <div class="layer-badge">1. UI (Sunum)</div>
+        <div class="layer-content">
+            <strong>UcCalisanEkle.cs:</strong> Form kutularındaki yazıları toplar, <code>Calisan</code> modeline doldurur ve süreci başlatır.
+        </div>
+    </div>
+    <div class="arrow-indicator">⬇️ 1. Form verisini toplar &gt; İlk olarak doğrulamaya sunar</div>
+
+    <div class="layer-box layer-validator">
+        <div class="layer-badge">2. Validator (Doğrulama)</div>
+        <div class="layer-content">
+            <strong>CalisanValidator.cs:</strong> Verileri denetler (Ad boş mu, TC 11 hane mi, maaş pozitif mi?). Hata varsa işlemi anında durdurur.
+        </div>
+    </div>
+    <div class="arrow-indicator">⬇️ 2. Veriler kurallara uygunsa &gt; Servis iş mantığı devreye girer</div>
+
+    <div class="layer-box layer-service">
+        <div class="layer-badge">3. Service (İş Mantığı)</div>
+        <div class="layer-content">
+            <strong>CalisanService.cs:</strong> Süreci yönetir. TC çakışması var mı bakar, fotoğraf dosyasını klasöre kopyalar ve Repository'ye kaydettirir.
+        </div>
+    </div>
+    <div class="arrow-indicator">⬇️ 3. İş kuralları tamamlanınca &gt; SQL çalıştırması için Repository'ye teslim eder</div>
+
+    <div class="layer-box layer-repo">
+        <div class="layer-badge">4. Repository (Veri Erişim)</div>
+        <div class="layer-content">
+            <strong>CalisanRepository.cs:</strong> Sadece SQL (<code>INSERT</code>) çalıştırır. MySQL veritabanına bağlanır ve veriyi satır olarak yazar.
+        </div>
+    </div>
+    <div class="arrow-indicator">⬇️ 4. Parametreli SQL komutu yürütür</div>
+
+    <div class="layer-box layer-db">
+        <div class="layer-badge">5. Veritabanı (DB)</div>
+        <div class="layer-content">
+            <strong>MySQL (teknik_servis):</strong> Fiziksel verilerin tutulduğu MySQL veritabanı ve <code>calisanlar</code> tablosu.
+        </div>
+    </div>
+</div>
+
+<div class="layer-box layer-model" style="margin-top: 8px;">
+    <div class="layer-badge">Ortak Katman: Model</div>
+    <div class="layer-content">
+        <strong>Calisan.cs:</strong> Katmanlar arasında veriyi taşıyan saf nesnedir (Ad, Soyad, TC, Telefon, Maas...).
+    </div>
+</div>
+
+<h2>5. Bir Kaydın Yolculuğu: Kod Üzerinde Adım Adım</h2>
+
+<h3>Adım 1: Arayüz (UI) Veriyi Toplar</h3>
+<pre>
+<span class="comment">// UcCalisanEkle.cs - Butona basılınca çalışan kod:</span>
+Calisan yeniCalisan = <span class="keyword">new</span> Calisan();
+yeniCalisan.Ad = txt_calisan_adi.Text.Trim();
+yeniCalisan.Tc = txt_calisan_tc.Text.Trim();
+<span class="comment">// ... diğer alanlar doldurulur ...</span>
+
+<span class="comment">// Modeli kaydetmesi için doğrudan Servis katmanına teslim ediyoruz:</span>
+IslemSonucu sonuc = _calisanService.Kaydet(yeniCalisan, secilenFotoYolu);
+MessageBox.Show(sonuc.Mesaj);
+</pre>
+
+<h3>Adım 2: Servis İçinde İlk Olarak Validator Çalıştırılır</h3>
+<pre>
+<span class="comment">// CalisanService.cs - İşlemleri yöneten orkestra şefi:</span>
+<span class="keyword">public</span> IslemSonucu Kaydet(Calisan calisan, <span class="keyword">string</span> fotoYolu)
+{
+    <span class="comment">// 1. ÖNCE VALIDATOR: Alanlar boş mu, formatlar doğru mu denetle:</span>
+    ValidationResult dogrulama = _validator.Dogrula(calisan);
+    <span class="keyword">if</span> (dogrulama.GecerliMi() == <span class="keyword">false</span>)
+        <span class="keyword">return</span> IslemSonucu.BasarisizSonuc(dogrulama.HatalariBirlestir());
+
+    <span class="comment">// 2. SONRA SERVICE İŞ KURALI: Aynı TC ile daha önce kayıt yapılmış mı?</span>
+    <span class="keyword">if</span> (_repository.TcVarMi(calisan.Tc) == <span class="keyword">true</span>)
+        <span class="keyword">return</span> IslemSonucu.BasarisizSonuc("Bu TC kimlik numarası zaten kayıtlı!");
+
+    <span class="comment">// 3. EN SON REPOSITORY: Veritabanına SQL ile ekle:</span>
+    <span class="keyword">bool</span> eklendi = _repository.Ekle(calisan, <span class="keyword">out string</span> hata);
+    <span class="keyword">return</span> eklendi ? IslemSonucu.BasariliSonuc("Başarıyla eklendi.") : IslemSonucu.BasarisizSonuc(hata);
+}
+</pre>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Ders Notları</span>
+    <span>Sayfa 3 / 4</span>
+</div>
+
+<!-- SAYFA 4 -->
+<div class="page-break"></div>
+
+<h2>6. Katmanların Görev Sınırları (Kim Ne Yapar?)</h2>
+<p>Her katmanın yapmaya yetkili olduğu işler ve <strong>asla yapmaması gereken yasaklar</strong> şunlardır:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 18%;">Katman</th>
+            <th style="width: 40%;">Ne Yapar? (İzinli Görevler)</th>
+            <th style="width: 42%;">Ne Yapamaz? (Kesinlikle Yasak!)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>1. UI (Sunum)</strong></td>
+            <td>Kullanıcıdan veri alır, ekrana buton/kutu çizer, servis sonucunu <code>MessageBox</code> ile gösterir.</td>
+            <td>❌ Asla SQL sorgusu (<code>INSERT</code>) yazamaz. Veritabanına doğrudan bağlanamaz. Doğrulama yapmaz.</td>
+        </tr>
+        <tr>
+            <td><strong>2. Validator (Doğrulama)</strong></td>
+            <td>Verilen modelin alanlarını kurallara göre inceler (boş mu, 11 hane mi, negatif mi).</td>
+            <td>❌ Veritabanına bağlanamaz. Ekrana mesaj basamaz. Sadece hata listesi döner.</td>
+        </tr>
+        <tr>
+            <td><strong>3. Service (İş Mantığı)</strong></td>
+            <td>Validator ve Repository sürecini koordine eder, iş kurallarını işletir, dosya kopyalar, sonucu paketler.</td>
+            <td>❌ Ekrana pencere çizemez, <code>MessageBox</code> açamaz. SQL sorgusu yazmaz (Repository'ye bırakır).</td>
+        </tr>
+        <tr>
+            <td><strong>4. Repository (Veri Erişim)</strong></td>
+            <td>Veritabanına bağlanır, SQL komutunu parametrelerle çalıştırır, sonucunu döner.</td>
+            <td>❌ Arayüzü bilmez. Formdaki kutucuklara (<code>TextBox</code>) doğrudan erişemez.</td>
+        </tr>
+        <tr>
+            <td><strong>Model (Varlık)</strong></td>
+            <td>Sadece veri alanlarını (<code>Ad</code>, <code>Soyad</code>, <code>Tc</code>, <code>Maas</code>) taşır.</td>
+            <td>❌ İçinde SQL sorgusu, bağlantı veya kural kodu barındırmaz. Saf veri kutusudur.</td>
+        </tr>
+        <tr>
+            <td><strong>VeritabaniBaglanti</strong></td>
+            <td>Bağlantı cümlesini tutar ve yeni bağlantı üretir.</td>
+            <td>❌ Tablo adlarını veya SQL komutlarını bilmez. Sadece bağlantı sağlar.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>7. Derste Uygulama Yaparken 5 Altın Kural</h2>
+
+<div class="card">
+    <ol>
+        <li>
+            <strong>"Ben bu kodu hangi sınıfa yazmalıyım?" sorusunu kendinize sorun:</strong><br>
+            - Kullanıcı tıklaması veya ekranda mesaj gösterme işi mi? ➡️ <strong>UI (Form)</strong><br>
+            - "Bu alan boş mu, 11 hane mi?" format/veri kontrolü mü? ➡️ <strong>Validator</strong><br>
+            - Süreci yönetme, fotoğraf kopyalama, "Bu TC zaten var mı?" iş kuralı mı? ➡️ <strong>Service</strong><br>
+            - Veritabanına bağlanıp SQL çalıştırma işi mi? ➡️ <strong>Repository</strong>
+        </li>
+        <li>
+            <strong>Formlarınızı tertemiz tutun:</strong>
+            Buton tıklama olayının içinde sadece verileri toplayıp <code>_calisanService.Kaydet(...)</code> çağrısı yapın. Formunuz 10-15 satırı geçmesin.
+        </li>
+        <li>
+            <strong>SQL Injection'a asla geçit vermeyin:</strong>
+            Sorguları <code>+</code> ile birleştirmek yerine daima <code>cmd.Parameters.AddWithValue()</code> kullanın.
+        </li>
+        <li>
+            <strong>Bağlantıları using bloğuna emanet edin:</strong>
+            Açık bağlantı kalmaması için her zaman <code>using (MySqlConnection conn = ...)</code> kullanın.
+        </li>
+        <li>
+            <strong>Fiziksel Klasör ≠ Mantıksal Namespace:</strong>
+            Dosyayı yeni klasöre (örn. <code>UserControls</code>) taşımak kodun başındaki namespace'i otomatik değiştirmez. Diğer dosyalarda <code>using</code> ile çağırmak için dosyadaki namespace'i de güncellemeli ve <code>.cs</code> ile <code>.Designer.cs</code> namespace'lerinin birebir aynı olmasına dikkat etmelisiniz.
+        </li>
+    </ol>
+</div>
+
+<div class="info-card">
+    🎓 <strong>Öğretmen Notu:</strong> Bu mimari sadece C# Windows Forms için değil; ileride öğreneceğiniz <strong>ASP.NET Core Web API, PHP (Laravel / Symfony), Java (Spring Boot)</strong> gibi tüm kurumsal yazılım ekosistemlerinde geçerli olan evrensel bir endüstri standardıdır.
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Ders Notları</span>
+    <span>Sayfa 4 / 4</span>
+</div>
+
+</body>
+</html>
