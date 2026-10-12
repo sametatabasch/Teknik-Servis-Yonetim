@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>C# & MySQL ile Veritabanı İşlemleri (ADO.NET) Kapsamlı Uygulama Rehberi</title>
+<style>
+    @page {
+        size: A4;
+        margin: 12mm 14mm 12mm 14mm;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        background-color: #ffffff;
+        line-height: 1.46;
+        font-size: 9.2pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Başlık ve Kapak Alanı */
+    .header-box {
+        background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%);
+        color: #ffffff;
+        padding: 16px 20px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .header-box h1 {
+        margin: 0 0 4px 0;
+        font-size: 17.5pt;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .header-box .subtitle {
+        margin: 0 0 8px 0;
+        font-size: 10.5pt;
+        color: #ccfbf1;
+    }
+
+    .header-box .meta {
+        font-size: 8pt;
+        color: #99f6e4;
+        display: flex;
+        gap: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        padding-top: 6px;
+        flex-wrap: wrap;
+    }
+
+    h2 {
+        color: #0f766e;
+        font-size: 11.5pt;
+        font-weight: 700;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 4px;
+        margin-top: 12px;
+        margin-bottom: 7px;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        color: #0369a1;
+        font-size: 9.8pt;
+        font-weight: 600;
+        margin-top: 9px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+    }
+
+    p {
+        margin: 0 0 5px 0;
+        text-align: justify;
+    }
+
+    /* Kartlar */
+    .card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-left: 5px solid #16a34a;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 7px 0;
+        page-break-inside: avoid;
+    }
+
+    .analogy-card h4 {
+        margin: 0 0 4px 0;
+        color: #15803d;
+        font-size: 9.5pt;
+    }
+
+    .warning-card {
+        background: #fffbeb;
+        border: 1px solid #fef3c7;
+        border-left: 5px solid #d97706;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 7px 0;
+        page-break-inside: avoid;
+    }
+
+    .info-card {
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-left: 5px solid #2563eb;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 7px 0;
+        page-break-inside: avoid;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 7px 0;
+        page-break-inside: avoid;
+    }
+
+    /* Tablo */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 7px 0;
+        font-size: 8.5pt;
+        page-break-inside: avoid;
+    }
+
+    table th, table td {
+        border: 1px solid #cbd5e1;
+        padding: 5px 8px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    table th {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+
+    /* Akış Kutusu */
+    .flow-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 7px 10px;
+        margin: 7px 0;
+        page-break-inside: avoid;
+    }
+
+    .flow-step {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 5px;
+        padding: 5px 8px;
+        text-align: center;
+        flex: 1;
+    }
+
+    .flow-step strong {
+        display: block;
+        color: #0f766e;
+        font-size: 8.8pt;
+    }
+
+    .flow-step span {
+        display: block;
+        color: #64748b;
+        font-size: 7.5pt;
+    }
+
+    .flow-arrow {
+        color: #0369a1;
+        font-weight: bold;
+        font-size: 11pt;
+        padding: 0 4px;
+    }
+
+    /* Kod Blokları */
+    pre, code {
+        font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    pre {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        padding: 8px 10px;
+        border-radius: 5px;
+        font-size: 8pt;
+        overflow-x: auto;
+        line-height: 1.35;
+        margin: 5px 0;
+        page-break-inside: avoid;
+    }
+
+    .highlight { color: #38bdf8; }
+    .keyword { color: #f472b6; }
+    .type { color: #4ade80; }
+    .string { color: #fbbf24; }
+    .comment { color: #94a3b8; font-style: italic; }
+    .number { color: #f87171; }
+
+    ul, ol {
+        margin: 0 0 5px 0;
+        padding-left: 18px;
+    }
+
+    li {
+        margin-bottom: 2.5px;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .footer {
+        margin-top: 10px;
+        padding-top: 5px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 7.5pt;
+        color: #64748b;
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+</head>
+<body>
+
+<!-- ========================================== -->
+<!-- SAYFA 1: ADO.NET MİMARİSİ VE BAĞLANTI (CONNECTION) -->
+<!-- ========================================== -->
+<div class="header-box">
+    <h1>C# & MySQL Veritabanı İşlemleri Kapsamlı Rehberi</h1>
+    <div class="subtitle">ADO.NET Mimarisi, Sorgu Tipleri, Güvenlik (SQL Injection) ve Pratik Kod Şablonları</div>
+    <div class="meta">
+        <span>🗄️ <strong>Kapsam:</strong> MySqlConnection, MySqlCommand, DataReader, DataAdapter, DataTable</span>
+        <span>🛡️ <strong>Güvenlik:</strong> Parametreli Sorgular, using Blokları, İstisna Yönetimi</span>
+        <span>💡 <strong>Hedef:</strong> Öğrenciler ve Başlangıç-Orta Seviye Geliştiriciler</span>
+    </div>
+</div>
+
+<h2>1. ADO.NET Nedir ve Nasıl Çalışır? (Bileşen Mimarisi)</h2>
+<p>
+    <strong>ADO.NET</strong>, .NET platformunda C# programlarının veritabanları (MySQL, MSSQL, Oracle, PostgreSQL vb.) ile iletişim kurmasını sağlayan resmi veri erişim kütüphanesidir. PHP'deki <strong>PDO</strong> veya <strong>mysqli</strong> yapısının C#'taki kurumsal karşılığıdır.
+</p>
+
+<div class="flow-container">
+    <div class="flow-step">
+        <strong>1. MySqlConnection</strong>
+        <span>Kablo / Bağlantı Yolu</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>2. MySqlCommand</strong>
+        <span>Kurye / SQL Emri</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>3. Çalıştırma Metodu</strong>
+        <span>NonQuery / Scalar / Reader</span>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="flow-step">
+        <strong>4. Sonuç / Nesne</strong>
+        <span>Etkilenen Sayı / Veri Akışı</span>
+    </div>
+</div>
+
+<div class="analogy-card">
+    <h4>🍽️ Günlük Hayat Benzetmesi (Kiler ve Kurye Modeli):</h4>
+    <ul>
+        <li><strong>MySqlConnection (Telefon Hattı):</strong> Mutfak ile bodrumdaki kiler (MySQL) arasında kurulan sesli telefon hattıdır. Hat açılmadan (<code>Open</code>) sipariş verilemez.</li>
+        <li><strong>MySqlCommand (Sipariş Fişi / Kurye):</strong> Kasiyerin elindeki yazılı emirdir: <em>"Depodan 5 çuval un getir"</em> veya <em>"Raf 3'teki peyniri sil"</em>.</li>
+        <li><strong>MySqlDataReader (Yürüyen Bant):</strong> Kilere inip malları tek tek, hızlıca yukarı çıkaran tek yönlü taşıma bandıdır (Hafiftir, hızlıdır).</li>
+        <li><strong>MySqlDataAdapter & DataTable (Alışveriş Sepeti):</strong> Kilerdeki tüm malları toptan kasaya doldurup masaya koyan çevrimdışı tepsidir (DataGridView için idealdir).</li>
+    </ul>
+</div>
+
+<h2>2. Veritabanı Bağlantısı Nasıl Oluşturulur? (`MySqlConnection`)</h2>
+<p>
+    C#'ta bir MySQL sunucusuna bağlanabilmek için projenize <strong><code>MySql.Data</code></strong> (veya modern <strong><code>MySqlConnector</code></strong>) NuGet paketinin ekli olması gerekir. Bağlantının ilk şartı doğru bir <strong>Connection String (Bağlantı Cümlesi)</strong> tanımlamaktır.
+</p>
+
+<h3>A) Connection String Parametreleri ve Anlamları</h3>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">Parametre</th>
+            <th style="width: 25%;">Örnek Değer</th>
+            <th style="width: 55%;">Açıklama</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>Server</code></strong></td>
+            <td><code>localhost</code> veya <code>127.0.0.1</code></td>
+            <td>Veritabanı sunucusunun IP adresi veya alan adı.</td>
+        </tr>
+        <tr>
+            <td><strong><code>Database</code></strong></td>
+            <td><code>teknik_servis</code></td>
+            <td>Bağlanılacak veritabanının adı.</td>
+        </tr>
+        <tr>
+            <td><strong><code>Uid</code></strong> (User Id)</td>
+            <td><code>teknik_servis_user</code> / <code>root</code></td>
+            <td>Veritabanı kullanıcısının adı.</td>
+        </tr>
+        <tr>
+            <td><strong><code>Pwd</code></strong> (Password)</td>
+            <td><code>123456</code> (root için genelde boş)</td>
+            <td>Veritabanı kullanıcısının parolası.</td>
+        </tr>
+        <tr>
+            <td><strong><code>Port</code></strong></td>
+            <td><code>3306</code> (Varsayılandır)</td>
+            <td>MySQL'in dinlediği port numarası (Standart dışı portlarda zorunludur).</td>
+        </tr>
+        <tr>
+            <td><strong><code>Charset</code></strong></td>
+            <td><code>utf8mb4</code></td>
+            <td>Türkçe karakterlerin (ş, ğ, ı, ö, ü, ç) ve emojilerin bozulmasını önler.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="card">
+    <h4>Standart Bağlantı Cümlesi Formatı:</h4>
+    <pre><span class="type">string</span> connStr = <span class="string">"Server=localhost;Database=teknik_servis;Uid=teknik_servis_user;Pwd=123456;Charset=utf8mb4;"</span>;</pre>
+</div>
+
+<h3>B) Bağlantıyı Yönetmenin Altın Kuralı: `using` ve Bağlantı Havuzu (Connection Pool)</h3>
+<p>
+    Veritabanı bağlantıları işletim sisteminde ve sunucuda yüksek maliyetli kaynaklardır. <code>conn.Open()</code> yapıldıktan sonra kodun içinde bir hata fırlatılırsa (Exception), alt satırdaki <code>conn.Close()</code> koduna asla ulaşılamaz! Bağlantı sunucuda açık asılı kalır ve bir süre sonra <strong>"Too many connections" (Bağlantı havuzu doldu)</strong> hatasıyla sistem kilitlenir.
+</p>
+
+<div class="warning-card">
+    <strong>⚠️ ÇÖZÜM: `using` Bloğu ile Otomatik Kapatma!</strong><br>
+    Bağlantıyı daima <code>using (MySqlConnection conn = ...) { ... }</code> bloğu içinde açın. Blok bittiği an (hata çıksa dahi) C# arka planda <code>conn.Dispose()</code> çalıştırır ve bağlantıyı havuza güvenle iade eder.
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Veritabanı İşlemleri Rehberi</span>
+    <span>Sayfa 1 / 5</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 2: SORGULAR, GÜVENLİK VE @ İŞARETİ -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>3. SQL Komutu (`MySqlCommand`), Parametreler ve `@` İşareti</h2>
+<p>
+    <code>MySqlCommand</code>, veritabanı üzerinde çalıştırılacak SQL sorgusunu ve bu sorgunun hangi bağlantı (<code>conn</code>) üzerinden gönderileceğini belirleyen sınıftır.
+</p>
+
+<div class="warning-card">
+    <strong>🚨 SQL INJECTION TEHLİKESİ — Metin Birleştirme (`+`) Kesinlikle Yasaktır!</strong><br>
+    <code>cmd.CommandText = "SELECT * FROM calisanlar WHERE tc = '" + txt_tc.Text + "'";</code><br>
+    Kötü niyetli bir kullanıcı TC kutusuna <code>' OR '1'='1</code> yazdığında SQL sorgusu tüm sistemi savunmasız bırakır, şifreleri açığa çıkarır veya tabloları silebilir!
+</div>
+
+<div class="analogy-card">
+    <h4>🛡️ Parametreli Sorguların (`@parametre`) Çalışma Mantığı:</h4>
+    <p>
+        Sorgu içerisine kullanıcı verisini doğrudan yapıştırmak yerine <strong><code>@tc</code>, <code>@ad</code></strong> gibi yer tutucular (parametreler) koyarız. MySQL bu parametreleri çalıştırılabilir SQL komutu olarak değil, <strong>saf veri (düz metin)</strong> olarak ele alır. Kullanıcı içine zararlı SQL kodu yazsa dahi komut çalışmaz; sadece metin olarak saklanır.
+    </p>
+    <pre><span class="type">MySqlCommand</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(<span class="string">"INSERT INTO calisanlar (ad, tc) VALUES (@ad, @tc)"</span>, conn);
+cmd.Parameters.AddWithValue(<span class="string">"@ad"</span>, calisan.Ad);
+cmd.Parameters.AddWithValue(<span class="string">"@tc"</span>, calisan.Tc);</pre>
+</div>
+
+<div class="info-card">
+    <h4>💡 SIK SORULAN SORU: Sorgulardaki İki Farklı `@` İşareti Neden Vardır?</h4>
+    <p style="margin-bottom: 4px;">Yeni başlayanların en çok karıştırdığı şey, tırnak başındaki `@` ile SQL içindeki `@` işaretinin aynı şey sanılmasıdır. İkisi tamamen farklı dünyalara aittir:</p>
+    <div class="grid-2" style="margin: 4px 0 0 0;">
+        <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:5px; padding:6px 9px;">
+            <strong style="color:#0f766e;">1. Tırnağın Başındaki `@` (`@"..."` - Verbatim String):</strong><br>
+            <span style="font-size:8.3pt; color:#475569;">
+                <strong>C# diline aittir.</strong> Normal çift tırnakta Enter'a basıp alt satıra geçemezsiniz. Tırnağın başına <code>@</code> koyduğunuzda uzun SQL sorgularını alt alta satırlara bölüp ferahça yazabilirsiniz. Ayrıca dosya yollarındaki ters slash (<code>\</code>) kaçışlarını devre dışı bırakır (<code>@"C:\resimler\foto.jpg"</code>).
+            </span>
+        </div>
+        <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:5px; padding:6px 9px;">
+            <strong style="color:#0369a1;">2. SQL İçindeki `@` (`@ad`, `@tc` - SQL Parametresi):</strong><br>
+            <span style="font-size:8.3pt; color:#475569;">
+                <strong>MySQL veritabanına aittir.</strong> Kullanıcıdan gelen veriyi SQL komutu olarak değil, güvenli bir değer (veri kutusu) olarak sorguya bağlar. SQL Injection saldırılarını %100 engelleyen emniyet kemeridir.
+            </span>
+        </div>
+    </div>
+</div>
+
+<h2>4. Hangi Sorgu İçin Hangi Sınıf ve Metot Kullanılır? (Altın Başvuru Tablosu)</h2>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 22%;">Metot / Sınıf</th>
+            <th style="width: 20%;">Uygun SQL Komutları</th>
+            <th style="width: 18%;">Döndürdüğü Değer</th>
+            <th style="width: 40%;">Kullanım Amacı ve Örneği</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong><code>ExecuteNonQuery()</code></strong><br>(MySqlCommand)</td>
+            <td><code>INSERT</code><br><code>UPDATE</code><br><code>DELETE</code></td>
+            <td><strong><code>int</code></strong><br>(Etkilenen satır sayısı)</td>
+            <td>Veritabanında değişiklik yapar ama satır okumaz. Geriye <code>1</code> dönerse işlem başarılıdır, <code>0</code> ise hiçbir satır etkilenmemiştir.<br><em>Örn: Yeni çalışan kaydetme, şifre güncelleme.</em></td>
+        </tr>
+        <tr>
+            <td><strong><code>ExecuteScalar()</code></strong><br>(MySqlCommand)</td>
+            <td><code>SELECT COUNT(*)</code><br><code>SELECT MAX(id)</code><br><code>SELECT SUM(maas)</code></td>
+            <td><strong><code>object</code></strong><br>(İlk satırın ilk hücresi)</td>
+            <td>Sorgudan tek bir kutucuk/değer döneceği zaman kullanılır. Sonuç <code>object</code> döner, uygun tipe dönüştürülür (<code>Convert.ToInt32</code> vb.).<br><em>Örn: "Bu TC kayıtlı mı?" kontrolü.</em></td>
+        </tr>
+        <tr>
+            <td><strong><code>ExecuteReader()</code></strong><br>(MySqlDataReader)</td>
+            <td><code>SELECT</code><br>(Çok satır ve çok sütun)</td>
+            <td><strong><code>MySqlDataReader</code></strong><br>(Hızlı okuma akışı)</td>
+            <td>Veritabanından satır satır hızlı ve düşük bellek tüketimiyle veri okur. <code>while(dr.Read())</code> döngüsüyle model nesnelerine doldurulur.<br><em>Örn: Çalışanlar listesini <code>List&lt;Calisan&gt;</code> yapmak.</em></td>
+        </tr>
+        <tr>
+            <td><strong><code>MySqlDataAdapter</code></strong><br>&amp; <code>DataTable</code></td>
+            <td><code>SELECT</code><br>(Toptan tablo çekme)</td>
+            <td><strong><code>DataTable</code></strong><br>(Hafızadaki tablo)</td>
+            <td>Çevrimdışı (Disconnected) çalışır. Bağlantıyı kendisi açar, verileri <code>DataTable</code>'a doldurur ve hemen kapatır. WinForms <code>DataGridView</code> için en pratik yoldur.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Veritabanı İşlemleri Rehberi</span>
+    <span>Sayfa 2 / 5</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 3: VERİ YAZMA İŞLEMLERİ (INSERT, UPDATE, DELETE) -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>5. Veritabanına Veri Yazma: Ekleme, Güncelleme ve Silme (CUD)</h2>
+<p>
+    Veritabanında kayıt oluşturan, güncelleyen veya silen tüm işlemlerde <strong><code>ExecuteNonQuery()</code></strong> metodu kullanılır.
+</p>
+
+<h3>A) Yeni Kayıt Ekleme (`INSERT` + `ExecuteNonQuery`)</h3>
+<pre><span class="keyword">public bool</span> <span class="highlight">CalisanEkle</span>(<span class="type">Calisan</span> calisan, <span class="keyword">out string</span> hataMesaji)
+{
+    hataMesaji = <span class="string">""</span>;
+    <span class="comment">// 💡 Baştaki '@' işareti sayesinde sorguyu alt alta ferahça yazabiliyoruz:</span>
+    <span class="keyword">string</span> sql = <span class="string">@"INSERT INTO calisanlar 
+                  (ad, soyad, tc, telefon, email, maas, cinsiyet, d_tarihi, baslama_tarihi, adres) 
+                  VALUES 
+                  (@ad, @soyad, @tc, @telefon, @email, @maas, @cinsiyet, @d_tarihi, @baslama_tarihi, @adres);"</span>;
+
+    <span class="keyword">try</span>
+    {
+        <span class="keyword">using var</span> conn = Databases.GetConnection();
+        <span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+
+        <span class="comment">// Sorgu içindeki @ parametrelerine değerleri atıyoruz:</span>
+        cmd.Parameters.AddWithValue(<span class="string">"@ad"</span>, calisan.Ad);
+        cmd.Parameters.AddWithValue(<span class="string">"@soyad"</span>, calisan.Soyad);
+        cmd.Parameters.AddWithValue(<span class="string">"@tc"</span>, calisan.Tc);
+        cmd.Parameters.AddWithValue(<span class="string">"@telefon"</span>, calisan.Telefon);
+        cmd.Parameters.AddWithValue(<span class="string">"@email"</span>, calisan.Email);
+        cmd.Parameters.AddWithValue(<span class="string">"@maas"</span>, calisan.maas);
+        cmd.Parameters.AddWithValue(<span class="string">"@cinsiyet"</span>, calisan.Cinsiyet);
+        cmd.Parameters.AddWithValue(<span class="string">"@d_tarihi"</span>, calisan.D_tarihi);
+        cmd.Parameters.AddWithValue(<span class="string">"@baslama_tarihi"</span>, calisan.Baslama_tarihi);
+        cmd.Parameters.AddWithValue(<span class="string">"@adres"</span>, calisan.Adres);
+
+        conn.Open();
+        <span class="keyword">int</span> etkilenen = cmd.ExecuteNonQuery();
+        <span class="keyword">return</span> etkilenen &gt; <span class="number">0</span>; <span class="comment">// En az 1 satır eklendiyse true döner</span>
+    }
+    <span class="keyword">catch</span> (<span class="type">Exception</span> ex)
+    {
+        hataMesaji = <span class="string">$"Veritabanı hatası: {ex.Message}"</span>;
+        <span class="keyword">return false</span>;
+    }
+}</pre>
+
+<div class="card">
+    <h4>💡 `cmd.LastInsertedId` (Otomatik Oluşan Yeni ID'yi Alma):</h4>
+    <p><code>INSERT</code> komutunu çalıştırdıktan hemen sonra, MySQL'in yeni eklenen kayda verdiği <code>AUTO_INCREMENT</code> ID numarasını almak için:</p>
+    <pre><span class="type">int</span> etkilenen = cmd.ExecuteNonQuery();
+<span class="type">long</span> yeniCalisanId = cmd.LastInsertedId; <span class="comment">// Yeni üretilen ID!</span></pre>
+</div>
+
+<h3>B) Kayıt Güncelleme ve Silme (`UPDATE` & `DELETE`)</h3>
+<div class="grid-2">
+    <div class="card">
+        <h4>Kayıt Güncelleme (`UPDATE`)</h4>
+        <pre><span class="keyword">string</span> sql = <span class="string">@"UPDATE calisanlar 
+              SET maas = @maas, adres = @adres 
+              WHERE id = @id;"</span>;
+
+<span class="keyword">using var</span> conn = Databases.GetConnection();
+<span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+cmd.Parameters.AddWithValue(<span class="string">"@maas"</span>, yeniMaas);
+cmd.Parameters.AddWithValue(<span class="string">"@adres"</span>, yeniAdres);
+cmd.Parameters.AddWithValue(<span class="string">"@id"</span>, calisanId);
+
+conn.Open();
+<span class="keyword">bool</span> basarili = cmd.ExecuteNonQuery() &gt; <span class="number">0</span>;</pre>
+    </div>
+    <div class="card">
+        <h4>Kayıt Silme (`DELETE`)</h4>
+        <pre><span class="keyword">string</span> sql = <span class="string">"DELETE FROM calisanlar WHERE id = @id;"</span>;
+
+<span class="keyword">using var</span> conn = Databases.GetConnection();
+<span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+cmd.Parameters.AddWithValue(<span class="string">"@id"</span>, calisanId);
+
+conn.Open();
+<span class="keyword">int</span> silinen = cmd.ExecuteNonQuery();
+<span class="keyword">bool</span> basarili = silinen &gt; <span class="number">0</span>;</pre>
+    </div>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Veritabanı İşlemleri Rehberi</span>
+    <span>Sayfa 3 / 5</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 4: VERİ OKUMA İŞLEMLERİ (SELECT, READER, DATATABLE) -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>6. Veritabanından Veri Okuma ve Listeleme (R)</h2>
+
+<h3>A) Tek Değer / Varlık Kontrolü (`SELECT COUNT(*)` + `ExecuteScalar`)</h3>
+<p>
+    Bir çalışanın kayıtlı olup olmadığını (TC veya kullanıcı adı var mı?) denetlerken bütün satırı çekmeye gerek yoktur. Sadece adeti (sayıyı) çekmek en performanslı yoldur:
+</p>
+<pre><span class="keyword">public bool</span> <span class="highlight">TcVarMi</span>(<span class="keyword">string</span> tc)
+{
+    <span class="keyword">string</span> sql = <span class="string">"SELECT COUNT(*) FROM calisanlar WHERE tc = @tc;"</span>;
+
+    <span class="keyword">using var</span> conn = Databases.GetConnection();
+    <span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+    cmd.Parameters.AddWithValue(<span class="string">"@tc"</span>, tc);
+
+    conn.Open();
+    <span class="comment">// ExecuteScalar ilk hücreyi 'object' döner, Convert ile int'e çevrilir:</span>
+    <span class="type">int</span> adet = Convert.ToInt32(cmd.ExecuteScalar());
+    <span class="keyword">return</span> adet &gt; <span class="number">0</span>; <span class="comment">// 0'dan büyükse bu TC zaten kayıtlıdır</span>
+}</pre>
+
+<h3>B) Çok Satırlı Veri Okuma & Model Listesi Doldurma (`MySqlDataReader`)</h3>
+<p>
+    Veritabanındaki satırları tek tek okuyup <code>List&lt;Calisan&gt;</code> nesne listesine dönüştürmek için <code>while(dr.Read())</code> akışı kullanılır:
+</p>
+<pre><span class="keyword">public</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; <span class="highlight">TumCalisanlariGetir</span>()
+{
+    <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; liste = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt;();
+    <span class="keyword">string</span> sql = <span class="string">"SELECT * FROM calisanlar ORDER BY ad ASC;"</span>;
+
+    <span class="keyword">using var</span> conn = Databases.GetConnection();
+    <span class="keyword">using var</span> cmd = <span class="keyword">new</span> <span class="type">MySqlCommand</span>(sql, conn);
+
+    conn.Open();
+    <span class="keyword">using var</span> dr = cmd.ExecuteReader();
+    <span class="keyword">while</span> (dr.Read()) <span class="comment">// Her satır için döner</span>
+    {
+        <span class="type">Calisan</span> c = <span class="keyword">new</span> <span class="type">Calisan</span>();
+        c.Fill(dr); <span class="comment">// 👈 Modelin içindeki Fill() metodu tek satırda doldurur!</span>
+        liste.Add(c);
+    }
+    <span class="keyword">return</span> liste;
+}</pre>
+
+<h3>C) WinForms İçin `DataTable` & `DataGridView` Veri Bağlama</h3>
+<p>
+    Tüm veritabanı tablosunu tek satırda çekip formdaki <code>DataGridView</code> tablosuna dökmek istediğinizde <strong><code>MySqlDataAdapter</code></strong> en pratik çözümdür:
+</p>
+
+<div class="card">
+    <pre><span class="keyword">public</span> <span class="type">DataTable</span> <span class="highlight">CalisanTablosuGetir</span>()
+{
+    <span class="type">DataTable</span> dt = <span class="keyword">new</span> <span class="type">DataTable</span>();
+    <span class="keyword">string</span> sql = <span class="string">"SELECT id, ad, soyad, telefon, yetki, maas FROM calisanlar;"</span>;
+
+    <span class="keyword">using var</span> conn = Databases.GetConnection();
+    <span class="keyword">using var</span> adapter = <span class="keyword">new</span> <span class="type">MySqlDataAdapter</span>(sql, conn);
+
+    <span class="comment">// DataAdapter bağlantıyı kendisi açar, tabloyu doldurur ve kapatır (conn.Open() gerekmez):</span>
+    adapter.Fill(dt);
+    <span class="keyword">return</span> dt;
+}
+
+<span class="comment">// Form İçindeki Kullanımı (Tek Satır):</span>
+dataGridView1.DataSource = calisanRepo.CalisanTablosuGetir();</pre>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Veritabanı İşlemleri Rehberi</span>
+    <span>Sayfa 4 / 5</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 5: NULL YÖNETİMİ, HATA YÖNETİMİ & TRANSACTION -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>7. İleri Düzey İpuçları, NULL Yönetimi ve Hata Yakalama</h2>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. NULL Değerleri Güvenle Okuma</h4>
+        <p>Veritabanında <code>NULL</code> olabilecek sütunlar (örn: <code>foto</code>) düz okunursa program çöker. <code>as string</code> ile tek satırda çözülür:</p>
+        <pre><span class="comment">// En temiz ve modern yol:</span>
+Foto = reader[<span class="string">"foto"</span>] <span class="keyword">as string</span>;
+
+<span class="comment">// Veya klasik kontrol:</span>
+<span class="keyword">if</span> (!reader.IsDBNull(reader.GetOrdinal(<span class="string">"foto"</span>)))
+    Foto = reader.GetString(<span class="string">"foto"</span>);
+<span class="keyword">else</span>
+    Foto = <span class="keyword">null</span>;</pre>
+    </div>
+    <div class="card">
+        <h4>2. `DBNull.Value` ile NULL Yazma</h4>
+        <p>C#'taki <code>null</code> değişkeni MySQL parametresine yazarken <code>DBNull.Value</code> verilmelidir:</p>
+        <pre><span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(calisan.Foto))
+    cmd.Parameters.AddWithValue(<span class="string">"@foto"</span>, DBNull.Value);
+<span class="keyword">else</span>
+    cmd.Parameters.AddWithValue(<span class="string">"@foto"</span>, calisan.Foto);</pre>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>3. MySQL Hata Kodları (Duplicate Entry)</h4>
+        <p>Aynı TC veya e-posta ikinci kez eklenmeye çalışıldığında MySQL <strong>1062</strong> hata kodunu fırlatır:</p>
+        <pre><span class="keyword">catch</span> (<span class="type">MySqlException</span> ex)
+{
+    <span class="keyword">if</span> (ex.Number == <span class="number">1062</span>)
+        MessageBox.Show(<span class="string">"Bu TC veya E-posta zaten kayıtlı!"</span>);
+    <span class="keyword">else</span>
+        MessageBox.Show(<span class="string">$"Veritabanı Hatası: {ex.Message}"</span>);
+}</pre>
+    </div>
+    <div class="card">
+        <h4>4. Transaction (İşlem Güvenliği)</h4>
+        <p>Birden çok SQL adımının ya hep birlikte başarılı olması ya da hiçbirinin çalışmaması için kullanılır:</p>
+        <pre><span class="keyword">using var</span> trans = conn.BeginTransaction();
+<span class="keyword">try</span> {
+    cmd1.Transaction = trans; cmd1.ExecuteNonQuery();
+    cmd2.Transaction = trans; cmd2.ExecuteNonQuery();
+    trans.Commit(); <span class="comment">// Her şey tamsa onayla!</span>
+} <span class="keyword">catch</span> {
+    trans.Rollback(); <span class="comment">// Hata olursa her şeyi geri al!</span>
+}</pre>
+    </div>
+</div>
+
+<div class="info-card">
+    <strong>📋 5 Altın Veritabanı Kuralı:</strong>
+    <ol style="margin-top:4px; margin-bottom:2px;">
+        <li><strong>Her bağlantıyı using ile açın:</strong> Açık kalan bağlantılar MySQL havuzunu kilitler.</li>
+        <li><strong>Asla string birleştirme (`+`) ile SQL yazmayın:</strong> Her zaman <code>@parametre</code> kullanın (SQL Injection koruması).</li>
+        <li><strong>Metot sorumluluğunu doğru seçin:</strong> Değişiklik için <code>ExecuteNonQuery</code>, tek değer için <code>ExecuteScalar</code>, liste için <code>ExecuteReader</code>.</li>
+        <li><strong>Bağlantıyı olabildiğince geç açıp erken kapatın:</strong> Sadece sorgu anında açın, form açılışında sürekli açık tutmayın.</li>
+        <li><strong>Katman disiplinini koruyun:</strong> SQL sorgularını formların (UI) içine değil, yalnızca <strong>Repository</strong> sınıflarına yazın.</li>
+    </ol>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | Veritabanı İşlemleri Rehberi</span>
+    <span>Sayfa 5 / 5</span>
+</div>
+
+</body>
+</html>

@@ -6,7 +6,7 @@
 <style>
     @page {
         size: A4;
-        margin: 12mm 14mm 12mm 14mm;
+        margin: 8mm 12mm 8mm 12mm;
     }
     
     * {
@@ -17,8 +17,8 @@
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
         color: #1e293b;
         background-color: #ffffff;
-        line-height: 1.48;
-        font-size: 9.5pt;
+        line-height: 1.36;
+        font-size: 8.8pt;
         margin: 0;
         padding: 0;
     }
@@ -61,8 +61,8 @@
         font-weight: 700;
         border-bottom: 2px solid #e2e8f0;
         padding-bottom: 4px;
-        margin-top: 14px;
-        margin-bottom: 8px;
+        margin-top: 10px;
+        margin-bottom: 6px;
         page-break-after: avoid;
     }
 
@@ -70,8 +70,8 @@
         color: #4338ca;
         font-size: 10pt;
         font-weight: 600;
-        margin-top: 10px;
-        margin-bottom: 4px;
+        margin-top: 8px;
+        margin-bottom: 3px;
         page-break-after: avoid;
     }
 
@@ -85,8 +85,8 @@
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 6px;
-        padding: 9px 12px;
-        margin-bottom: 8px;
+        padding: 7px 10px;
+        margin-bottom: 6px;
         page-break-inside: avoid;
     }
 
@@ -103,7 +103,7 @@
     .analogy-card h4 {
         margin: 0 0 5px 0;
         color: #15803d;
-        font-size: 9.5pt;
+        font-size: 8.8pt;
     }
 
     .warning-card {
@@ -258,7 +258,7 @@
     <h1>C# Programlama Dili Kapsamlı Ders & Tekrar Notları</h1>
     <div class="subtitle">Temel Çalışma Mantığından Modern Nesne Yönelimli Tasarıma (OOP) Uygulamalı Rehber</div>
     <div class="meta">
-        <span>📚 <strong>Kapsam:</strong> Bellek Mimarisi, Namespace & using, get/set Kapsülleme, ref/out, OOP, using Kaynak Yönetimi, LINQ</span>
+        <span>📚 <strong>Kapsam:</strong> Bellek Mimarisi, get/set, Namespace, char/string &amp; @ Verbatim, ref/out, OOP, using Kaynak Yönetimi</span>
         <span>💡 <strong>Hedef Kitle:</strong> Öğrenciler ve Başlangıç-Orta Düzey Geliştiriciler</span>
     </div>
 </div>
@@ -551,11 +551,117 @@ u.Fiyat = -<span class="number">500</span>; <span class="comment">// Negatif fiy
 </div>
 
 <!-- ========================================== -->
-<!-- SAYFA 4: MODERN SÖZDİZİMİ, REF/OUT & METOTLAR -->
+<!-- SAYFA 4: METİNLER, KARAKTERLER & @ VERBATIM STRING -->
 <!-- ========================================== -->
 <div class="page-break"></div>
 
-<h2>7. Modern C# Sözdizimi Şekerleri (Syntactic Sugar)</h2>
+<h2>7. Metinler ve Karakterler: Tek Tırnak (`'...'`) ile Çift Tırnak (`"..."`) Farkı</h2>
+<p>
+    C#'ta tek tırnak ve çift tırnak <strong>asla birbirinin yerine kullanılamaz</strong>. Bu iki işaret tamamen farklı bellek bölgelerinde yaşayan, farklı veri tiplerini temsil eder:
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 22%;">Özellik</th>
+            <th style="width: 39%;">Tek Tırnak (<code>'a'</code>) — <code>char</code> Tipi</th>
+            <th style="width: 39%;">Çift Tırnak (<code>"a"</code>) — <code>string</code> Tipi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Veri Tipi & Doğası</strong></td>
+            <td><strong><code>char</code></strong> (Tek bir karakter / harf / sembol).</td>
+            <td><strong><code>string</code></strong> (Karakterler dizisi / metin).</td>
+        </tr>
+        <tr>
+            <td><strong>Bellek Yönetimi</strong></td>
+            <td><strong>Değer tipidir (Stack).</strong> 16-bit (2 byte) yer kaplar.</td>
+            <td><strong>Referans tipidir (Heap).</strong> Dinamik uzunluktadır.</td>
+        </tr>
+        <tr>
+            <td><strong>Kapasite Kuralı</strong></td>
+            <td>İçine <strong>kesinlikle tek 1 karakter</strong> alabilir.</td>
+            <td>0, 1 veya milyonlarca karakter içerebilir.</td>
+        </tr>
+        <tr>
+            <td><strong>Hata Durumu</strong></td>
+            <td><code>char c = 'AB';</code> ➔ <strong>Derleme Hatası (CS1012)!</strong></td>
+            <td><code>string s = "AB";</code> ➔ Geçerli ve serbesttir.</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="analogy-card">
+    <h4>🐘 PHP ve SQL ile Kritik Karşılaştırma:</h4>
+    <p>
+        <strong>• PHP Geliştiricileri İçin Tuzak:</strong> PHP'de hem <code>'metin'</code> hem de <code>"metin"</code> geçerli birer string'tir (tek fark çift tırnakta <code>$degisken</code> çözülmesidir). C#'ta ise tek tırnak içine birden fazla harf yazamazsınız; doğrudan derleyici hatası alırsınız!<br>
+        <strong>• SQL Sorgularındaki Tırnak Düzeni:</strong> C# içinde SQL yazarken dıştaki çift tırnak <code>"..."</code> C# metnini belirtir; SQL standardına göre metin alanları ise tek tırnak <code>'...'</code> içine alınır: <code>string sql = "SELECT * FROM calisanlar WHERE tc = '12345678901'";</code>
+    </p>
+</div>
+
+<h2>8. `@` (At / Verbatim String) İşareti ve Kullanım Alanları</h2>
+<p>
+    C#'ta çift tırnağın hemen önüne <strong><code>@</code></strong> sembolü konulduğunda (<code>@"..."</code>), buna <strong>Verbatim String Literal</strong> denir. Derleyiciye <em>"Ters bölüleri ve kaçış karakterlerini arama; aradaki metni harfi harfine, satır atlamalarıyla olduğu gibi al"</em> talimatı verir:
+</p>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>1. Kaçış Karakterlerinden Kurtulma (`\`)</h4>
+        <p style="margin:0 0 2px 0;">Windows dosya yolları ve Regex ifadelerinde çift ters bölü hamallığını bitirir:</p>
+        <pre style="margin:0;"><span class="comment">// Normal yol (Her '\' için çift '\\' zorunlu):</span>
+<span class="type">string</span> yol1 = <span class="string">"C:\\Projeler\\Resimler\\logo.png"</span>;
+
+<span class="comment">// @ ile tertemiz dosya yolu:</span>
+<span class="type">string</span> yol2 = <span class="string">@"C:\Projeler\Resimler\logo.png"</span>;</pre>
+    </div>
+    <div class="card">
+        <h4>2. Çok Satırlı (Multi-Line) SQL Sorguları</h4>
+        <p style="margin:0 0 2px 0;">Enter tuşuna basarak satır atlamanıza izin verir; <code>+</code> ile birleştirme gerekmez:</p>
+        <pre style="margin:0;"><span class="type">string</span> sql = <span class="string">@"INSERT INTO calisanlar 
+               (tc, ad, soyad, sifre, maas) 
+               VALUES 
+               (@tc, @ad, @soyad, @sifre, @maas)"</span>;</pre>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h4>3. `$@` veya `@$` (Interpolation + Verbatim)</h4>
+        <p style="margin:0 0 2px 0;">Hem çok satırlı/kaçışsız yazım hem süslü parantezli <code>{degisken}</code> desteği:</p>
+        <pre style="margin:0;"><span class="type">string</span> klasor = <span class="string">"Faturalar"</span>;
+<span class="type">string</span> yol = <span class="string">$@"C:\Sistem\{klasor}\fatura_{id}.pdf"</span>;
+<span class="comment">// C# 8.0 ile $@ ve @$ sırası fark etmeksizin geçerlidir.</span></pre>
+    </div>
+    <div class="card">
+        <h4>4. `@` İçinde Çift Tırnak Kullanma Kuralı</h4>
+        <p style="margin:0 0 2px 0;"><code>@"..."</code> içinde tırnak basmak için ters bölü değil, çift tırnak (<code>""</code>) yazılır:</p>
+        <pre style="margin:0;"><span class="comment">// Ekrana: "Admin" dedi</span>
+<span class="type">string</span> yazi = <span class="string">@"""Admin"" dedi"</span>;
+<span class="type">string</span> json = <span class="string">@"{ ""status"": ""ok"" }"</span>;</pre>
+    </div>
+</div>
+
+<div class="warning-card">
+    <strong>⚠️ Kritik Ayrım: C# `@"..."` Verbatim String ile SQL `@parametre` Aynı Şey Değildir!</strong><br>
+    Veritabanı kodu yazarken iki farklı <code>@</code> kullanılır ve amaçları tamamen ayrıdır:
+    <ul style="margin-top:3px; margin-bottom:0;">
+        <li><strong>Metin Başındaki <code>@"..."</code> (C# Özelliği):</strong> C# derleyicisine SQL metninin Enter ile alt satırlara inebileceğini söyler.</li>
+        <li><strong>SQL İçindeki <code>@tc</code>, <code>@sifre</code> (Veritabanı Parametresi):</strong> MySQL / SQL komutuna güvenli veri taşımak için açılan parametre kapısıdır; SQL Injection saldırılarını engeller.</li>
+    </ul>
+</div>
+
+<div class="footer">
+    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
+    <span>Sayfa 4 / 6</span>
+</div>
+
+<!-- ========================================== -->
+<!-- SAYFA 5: MODERN SÖZDİZİMİ, REF/OUT & METOTLAR -->
+<!-- ========================================== -->
+<div class="page-break"></div>
+
+<h2>9. Modern C# Sözdizimi Şekerleri (Syntactic Sugar)</h2>
 <p>
     C#'ta kodu kısaltmak ve okunabilirliği artırmak için kullanılan pratik yazım kuralları:
 </p>
@@ -642,7 +748,7 @@ string mesaj = "Çalışan: " + ad + " " + soyad + ", Maaş: " + maas.ToString()
 string mesaj = <span class="string">$"Çalışan: {ad} {soyad}, Maaş: {maas:C2}, Tarih: {DateTime.Today:dd.MM.yyyy}"</span>;
 <span class="comment">// ':C2' parayı otomatik olarak TL (₺) formatında yazar. ':dd.MM.yyyy' tarihi gün.ay.yıl yapar.</span></pre>
 
-<h2>8. Metot Parametreleri: Normal, `ref` ve `out` Farkı</h2>
+<h2>10. Metot Parametreleri: Normal, `ref` ve `out` Farkı</h2>
 <div class="grid-2">
     <div class="card">
         <h4>Normal Aktarım (Değer Kopyalanır)</h4>
@@ -669,15 +775,15 @@ string mesaj = <span class="string">$"Çalışan: {ad} {soyad}, Maaş: {maas:C2}
 
 <div class="footer">
     <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
-    <span>Sayfa 4 / 6</span>
+    <span>Sayfa 5 / 6</span>
 </div>
 
 <!-- ========================================== -->
-<!-- SAYFA 5: OOP 4 DİREK, KOLEKSİYONLAR & WINFORMS -->
+<!-- SAYFA 6: OOP (4 TEMEL DİREK) & KAYNAK YÖNETİMİ (USING) -->
 <!-- ========================================== -->
 <div class="page-break"></div>
 
-<h2>9. Nesne Yönelimli Programlamanın (OOP) 4 Temel Direği</h2>
+<h2>11. Nesne Yönelimli Programlamanın (OOP) 4 Temel Direği</h2>
 
 <div class="grid-2">
     <div class="card">
@@ -718,79 +824,6 @@ string mesaj = <span class="string">$"Çalışan: {ad} {soyad}, Maaş: {maas:C2}
 }</pre>
     </div>
 </div>
-
-<h2>10. Generic Koleksiyonlar (`List&lt;T&gt;`) ve İstisna Yönetimi</h2>
-<div class="grid-2">
-    <div class="card">
-        <h4>`List&lt;T&gt;` (Tip Güvenli Dinamik Liste)</h4>
-        <p style="margin:0 0 2px 0;">Eski diziler gibi sabit boyutlu değildir; dinamik büyür:</p>
-        <pre style="margin:0;"><span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; liste = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt;();
-liste.Add(<span class="keyword">new</span> <span class="type">Calisan</span> { Ad = <span class="string">"Ahmet"</span> });
-liste.RemoveAt(<span class="number">0</span>); <span class="comment">// 0. elemanı sil</span>
-<span class="type">int</span> toplam = liste.Count; <span class="comment">// Eleman sayısı</span></pre>
-    </div>
-    <div class="card">
-        <h4>`try-catch-finally` ve `using` Güvencesi</h4>
-        <p style="margin:0 0 2px 0;">Programın çalışma anında çökmesini engeller:</p>
-        <pre style="margin:0;"><span class="keyword">try</span> {
-    conn.Open(); <span class="comment">// Riskli işlem</span>
-} <span class="keyword">catch</span> (<span class="type">Exception</span> ex) {
-    MessageBox.Show(<span class="string">$"Hata: {ex.Message}"</span>);
-} <span class="keyword">finally</span> {
-    conn.Close(); <span class="comment">// Her durumda çalışır</span>
-}</pre>
-    </div>
-</div>
-
-<h2>11. Masaüstü Uygulamalarında Oturum Yönetimi (Session)</h2>
-<p>
-    Web projelerinde PHP veya ASP.NET'te oturum bilgisi <code>$_SESSION</code> dizisinde saklanır. Windows Forms masaüstü uygulamalarında ise oturum bilgisi <strong><code>static class Oturum</code></strong> mimarisi ile yönetilir:
-</p>
-
-<div class="card">
-    <h4>Temiz ve Güvenli Oturum Mimarisi:</h4>
-    <pre><span class="keyword">public static class</span> <span class="type">Oturum</span>
-{
-    <span class="comment">// Giriş yapan çalışanın tüm nesnesi burada saklanır:</span>
-    <span class="keyword">public static</span> <span class="type">Calisan</span>? AktifCalisan { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-
-    <span class="comment">// Oturum açık mı kontrolü (Salt-okunur lambda property):</span>
-    <span class="keyword">public static bool</span> GirisYapildiMi =&gt; AktifCalisan != <span class="keyword">null</span>;
-
-    <span class="comment">// Güvenli çıkış yapma:</span>
-    <span class="keyword">public static void</span> CikisYap() =&gt; AktifCalisan = <span class="keyword">null</span>;
-}</pre>
-</div>
-
-<div class="grid-2">
-    <div class="card">
-        <h4>1. Giriş Formunda (Login):</h4>
-        <pre><span class="comment">// Başarılı girişten sonra:</span>
-<span class="type">Calisan</span> bulunan = _service.GirisYap(tc, sifre);
-<span class="type">Oturum</span>.AktifCalisan = bulunan;
-
-<span class="comment">// Ana formu aç</span>
-<span class="keyword">new</span> <span class="type">form_anasayfa</span>().Show();</pre>
-    </div>
-    <div class="card">
-        <h4>2. Herhangi Bir Form / UserControl İçinde:</h4>
-        <pre><span class="comment">// Artık projenin her yerinden doğrudan erişilebilir:</span>
-lbl_kullanici.Text = <span class="string">$"Hoş geldin, {Oturum.AktifCalisan?.Ad}"</span>;
-
-<span class="keyword">if</span> (<span class="type">Oturum</span>.AktifCalisan?.Yetki != <span class="string">"Yönetici"</span>)
-    btn_calisan_sil.Enabled = <span class="keyword">false</span>; <span class="comment">// Yetki kısıtlama</span></pre>
-    </div>
-</div>
-
-<div class="footer">
-    <span>Teknik Servis Yönetim Projesi | C# Temel & İleri Ders Notları</span>
-    <span>Sayfa 5 / 6</span>
-</div>
-
-<!-- ========================================== -->
-<!-- SAYFA 6: KAYNAK YÖNETİMİ (USING) & LINQ İLE FİLTRELEME -->
-<!-- ========================================== -->
-<div class="page-break"></div>
 
 <h2>12. `using` Deyimi ve Kaynak Yönetimi (Resource Management)</h2>
 <p>
@@ -854,88 +887,6 @@ lbl_kullanici.Text = <span class="string">$"Hoş geldin, {Oturum.AktifCalisan?.A
     <span class="comment">// Metot bittiği an her iki nesne de otomatik kapatılır!</span>
 }</pre>
     </div>
-</div>
-
-<h2>13. LINQ ile Filtreleme, Sıralama ve Sorgulama (Döngü Hamallığına Son)</h2>
-<p>
-    <strong>LINQ (Language Integrated Query)</strong>, C# koleksiyonları (<code>List&lt;T&gt;</code>) üzerinde SQL yazıyormuş gibi filtreleme, arama ve sıralama yapmayı sağlayan güçlü bir teknolojidir.
-</p>
-
-<div class="grid-2">
-    <div class="card">
-        <h4>Eski Yol: 8 Satırlık Döngü Hamallığı</h4>
-        <pre style="margin:0;"><span class="comment">// Teknisyenleri bulup listelemek:</span>
-<span class="type">List</span>&lt;<span class="type">Calisan</span>&gt; filtreli = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Calisan</span>&gt;();
-<span class="keyword">foreach</span> (<span class="type">var</span> c <span class="keyword">in</span> tumCalisanlar)
-{
-    <span class="keyword">if</span> (c.Yetki == <span class="string">"Teknisyen"</span> &amp;&amp; c.Maas &gt; <span class="number">20000m</span>)
-    {
-        filtreli.Add(c);
-    }
-}</pre>
-    </div>
-    <div class="card">
-        <h4>Modern LINQ: Tek Satırda Temiz Kod</h4>
-        <pre style="margin:0;"><span class="comment">// Aynı iş tek bir akıcı satırda:</span>
-<span class="type">var</span> filtreli = tumCalisanlar
-    .Where(c =&gt; c.Yetki == <span class="string">"Teknisyen"</span> &amp;&amp; c.Maas &gt; <span class="number">20000m</span>)
-    .OrderBy(c =&gt; c.Ad)
-    .ToList();</pre>
-    </div>
-</div>
-
-<table>
-    <thead>
-        <tr>
-            <th style="width: 20%;">LINQ Metodu</th>
-            <th style="width: 18%;">SQL Karşılığı</th>
-            <th style="width: 35%;">Örnek C# Kullanımı</th>
-            <th style="width: 27%;">Açıklama / Döndürdüğü Değer</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><strong><code>.Where(...)</code></strong></td>
-            <td><code>WHERE</code></td>
-            <td><code>liste.Where(c =&gt; c.AktifMi == true)</code></td>
-            <td>Şarta uyan tüm elemanları süzer (filtreler).</td>
-        </tr>
-        <tr>
-            <td><strong><code>.OrderBy(...)</code></strong></td>
-            <td><code>ORDER BY ASC</code></td>
-            <td><code>liste.OrderBy(c =&gt; c.Maas)</code></td>
-            <td>Küçükten büyüğe sıralar (Tersi: <code>OrderByDescending</code>).</td>
-        </tr>
-        <tr>
-            <td><strong><code>.Select(...)</code></strong></td>
-            <td><code>SELECT</code></td>
-            <td><code>liste.Select(c =&gt; c.Ad).ToList()</code></td>
-            <td>Nesnelerin sadece istenen alanını çekip yeni liste yapar.</td>
-        </tr>
-        <tr>
-            <td><strong><code>.FirstOrDefault(...)</code></strong></td>
-            <td><code>LIMIT 1</code></td>
-            <td><code>liste.FirstOrDefault(c =&gt; c.Id == 5)</code></td>
-            <td>İlk eşleşeni bulur; liste boşsa çökmez, <code>null</code> döner.</td>
-        </tr>
-        <tr>
-            <td><strong><code>.Any(...)</code></strong></td>
-            <td><code>EXISTS</code></td>
-            <td><code>liste.Any(c =&gt; c.Tc == "12345678901")</code></td>
-            <td>Şarta uyan kayıt var mı bakar; <strong><code>true</code> / <code>false</code></strong> döner.</td>
-        </tr>
-        <tr>
-            <td><strong><code>.Count()</code> / <code>.Sum()</code></strong></td>
-            <td><code>COUNT / SUM</code></td>
-            <td><code>liste.Sum(c =&gt; c.Maas)</code></td>
-            <td>Eleman sayısını veya toplam maaşı hesaplar.</td>
-        </tr>
-    </tbody>
-</table>
-
-<div class="info-card">
-    <strong>💡 Sonda Neden `.ToList()` Yazarız? (Ertelenmiş Çalışma - Deferred Execution):</strong><br>
-    LINQ sorguları <code>.ToList()</code> veya <code>.FirstOrDefault()</code> gibi bir sonuç metodu çağrılana kadar bellekte işlem yapmaz; sadece bir "plan" olarak bekler. Sonuna <code>.ToList()</code> yazdığınız anda filtreleme motoru çalışır ve verileri bellekte somut bir <code>List&lt;T&gt;</code> haline getirir.
 </div>
 
 <div class="footer">
