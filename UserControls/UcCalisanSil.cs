@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Teknik_Servis_Yönetim
+namespace Teknik_Servis_Yönetim.UserControls
 {
-    public partial class UcCalisanListesi : UserControl
+    public partial class UcCalisanSil : UserControl
     {
-        public UcCalisanListesi()
+        public UcCalisanSil()
         {
             InitializeComponent();
         }

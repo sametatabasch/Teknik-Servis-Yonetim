@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Teknik_Servis_Yönetim
+namespace Teknik_Servis_Yönetim.UserControls
 {
     public partial class UcCalisanEkle : UserControl
     {

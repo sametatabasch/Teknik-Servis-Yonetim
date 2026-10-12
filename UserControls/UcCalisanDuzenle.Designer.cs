@@ -1,4 +1,4 @@
-﻿namespace Teknik_Servis_Yönetim
+﻿namespace Teknik_Servis_Yönetim.UserControls
 {
     partial class UcCalisanDuzenle
     {

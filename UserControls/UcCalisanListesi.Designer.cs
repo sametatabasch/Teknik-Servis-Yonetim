@@ -1,6 +1,6 @@
-﻿namespace Teknik_Servis_Yönetim
+﻿namespace Teknik_Servis_Yönetim.UserControls
 {
-    partial class UcCalisanSil
+    partial class UcCalisanListesi
     {
         /// <summary> 
         ///Gerekli tasarımcı değişkeni.
@@ -28,31 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            dgw_calisan_listesi = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dgw_calisan_listesi).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // dgw_calisan_listesi
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(292, 143);
-            label1.Name = "label1";
-            label1.Size = new Size(60, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Çalışan Sil";
+            dgw_calisan_listesi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgw_calisan_listesi.Dock = DockStyle.Top;
+            dgw_calisan_listesi.Location = new Point(0, 0);
+            dgw_calisan_listesi.Name = "dgw_calisan_listesi";
+            dgw_calisan_listesi.Size = new Size(842, 320);
+            dgw_calisan_listesi.TabIndex = 0;
             // 
-            // UcCalisanSil
+            // UcCalisanListesi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(label1);
-            Name = "UcCalisanSil";
-            Size = new Size(562, 353);
+            Controls.Add(dgw_calisan_listesi);
+            Name = "UcCalisanListesi";
+            Size = new Size(842, 405);
+            Load += UcCalisanListesi_Load;
+            ((System.ComponentModel.ISupportInitialize)dgw_calisan_listesi).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
+        private DataGridView dgw_calisan_listesi;
     }
 }

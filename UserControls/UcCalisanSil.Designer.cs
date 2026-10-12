@@ -1,6 +1,6 @@
-﻿namespace Teknik_Servis_Yönetim
+﻿namespace Teknik_Servis_Yönetim.UserControls
 {
-    partial class UcCalisanListesi
+    partial class UcCalisanSil
     {
         /// <summary> 
         ///Gerekli tasarımcı değişkeni.
@@ -28,32 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            label1 = new Label();
             SuspendLayout();
             // 
-            // dataGridView1
+            // label1
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Top;
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(842, 320);
-            dataGridView1.TabIndex = 0;
+            label1.AutoSize = true;
+            label1.Location = new Point(292, 143);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Çalışan Sil";
             // 
-            // UcCalisanListesi
+            // UcCalisanSil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(dataGridView1);
-            Name = "UcCalisanListesi";
-            Size = new Size(842, 405);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Controls.Add(label1);
+            Name = "UcCalisanSil";
+            Size = new Size(562, 353);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private Label label1;
     }
 }
