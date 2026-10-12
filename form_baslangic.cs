@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Teknik_Servis_Yönetim.UserControls;
 
 namespace Teknik_Servis_Yönetim
 {
@@ -54,6 +55,26 @@ namespace Teknik_Servis_Yönetim
         private void tsmi_calisan_sil_Click(object sender, EventArgs e)
         {
             sayfa_yukle(new UcCalisanSil());
+        }
+
+        private void form_baslangic_Load(object sender, EventArgs e)
+        {
+            if(!Oturum.GirisYapildiMi())
+            {
+                form_giris formGiris = new form_giris();
+                
+                while (formGiris.DialogResult != DialogResult.OK)
+                {
+                    if (formGiris.DialogResult == DialogResult.Cancel)
+                    {
+                        Application.Exit();
+                        return;
+                    }
+                    formGiris.ShowDialog();
+                }
+            }
+
+            tsmi_karsilama.Text = Oturum.AktifKullnici?.KarsilamaMesaji;
         }
     }
 }

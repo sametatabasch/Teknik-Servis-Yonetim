@@ -39,13 +39,14 @@
             tsmi_calisan_ekle = new ToolStripMenuItem();
             tsmi_calisan_duzenle = new ToolStripMenuItem();
             tsmi_calisan_sil = new ToolStripMenuItem();
+            tsmi_karsilama = new ToolStripMenuItem();
             pnl_ana_panel = new Panel();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { tsmi_dosya, tsmi_calisan_islemleri });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { tsmi_dosya, tsmi_calisan_islemleri, tsmi_karsilama });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1027, 24);
@@ -96,30 +97,38 @@
             // tsmi_calisan_listesi
             // 
             tsmi_calisan_listesi.Name = "tsmi_calisan_listesi";
-            tsmi_calisan_listesi.Size = new Size(180, 22);
+            tsmi_calisan_listesi.Size = new Size(157, 22);
             tsmi_calisan_listesi.Text = "Çalışan Listesi";
             tsmi_calisan_listesi.Click += tsmi_calisan_listesi_Click;
             // 
             // tsmi_calisan_ekle
             // 
             tsmi_calisan_ekle.Name = "tsmi_calisan_ekle";
-            tsmi_calisan_ekle.Size = new Size(180, 22);
+            tsmi_calisan_ekle.Size = new Size(157, 22);
             tsmi_calisan_ekle.Text = "Çalışan Ekle";
             tsmi_calisan_ekle.Click += tsmi_calisan_ekle_Click;
             // 
             // tsmi_calisan_duzenle
             // 
             tsmi_calisan_duzenle.Name = "tsmi_calisan_duzenle";
-            tsmi_calisan_duzenle.Size = new Size(180, 22);
+            tsmi_calisan_duzenle.Size = new Size(157, 22);
             tsmi_calisan_duzenle.Text = "Çalışan Düzenle";
             tsmi_calisan_duzenle.Click += tsmi_calisan_duzenle_Click;
             // 
             // tsmi_calisan_sil
             // 
             tsmi_calisan_sil.Name = "tsmi_calisan_sil";
-            tsmi_calisan_sil.Size = new Size(180, 22);
+            tsmi_calisan_sil.Size = new Size(157, 22);
             tsmi_calisan_sil.Text = "Çalışan Sil";
             tsmi_calisan_sil.Click += tsmi_calisan_sil_Click;
+            // 
+            // tsmi_karsilama
+            // 
+            tsmi_karsilama.Alignment = ToolStripItemAlignment.Right;
+            tsmi_karsilama.Enabled = false;
+            tsmi_karsilama.Name = "tsmi_karsilama";
+            tsmi_karsilama.Size = new Size(76, 20);
+            tsmi_karsilama.Text = "Hogeldiniz";
             // 
             // pnl_ana_panel
             // 
@@ -140,6 +149,7 @@
             Name = "form_baslangic";
             ShowIcon = false;
             Text = "TMYO Teknik Servis";
+            Load += form_baslangic_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -160,5 +170,6 @@
         private ToolStripMenuItem tsmi_calisan_duzenle;
         private ToolStripMenuItem tsmi_calisan_sil;
         private Panel pnl_ana_panel;
+        private ToolStripMenuItem tsmi_karsilama;
     }
 }

@@ -1,3 +1,6 @@
+using Teknik_Servis_Yönetim.Data;
+using MySql.Data.MySqlClient;
+using Teknik_Servis_Yönetim.Models;
 namespace Teknik_Servis_Yönetim
 {
     public partial class form_giris : Form
@@ -12,22 +15,33 @@ namespace Teknik_Servis_Yönetim
             var kullaniciAdi = txt_kullanici_adi.Text;
             var parola = txt_parola.Text;
 
-            if (kullaniciAdi == "samet" && parola == "1234")
+            using (var baglanti= Database.GetConnection())
             {
-                MessageBox.Show("Giriş Başarılı");
-                form_baslangic form_baslangic = new form_baslangic();
+                baglanti.Open();
+                string sql = "SELECT * FROM calisanlar WHERE kullanici_adi=@kullaniciAdi AND sifre=@sifre";
+                var komut = new MySqlCommand(sql, baglanti);
+                komut.Parameters.AddWithValue("@kullaniciAdi", kullaniciAdi);
+                komut.Parameters.AddWithValue("@sifre", parola);
 
-                form_baslangic.Show();
-                this.Hide();
+                MySqlDataReader reader = komut.ExecuteReader();
 
+                if (reader.Read())
+                {
+                    // Kullanıcı bulundu, giriş başarılı
+                    Calisan kullanici = new Calisan();
+                    kullanici.Fill(reader);
+                    Oturum.GirisYap(kullanici);
+
+                    MessageBox.Show(Oturum.AktifKullnici?.KarsilamaMesaji, Oturum.AktifKullnici?.Yetki);
+                    this.DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    // Kullanıcı bulunamadı, giriş başarısız
+                    MessageBox.Show("Kullanıcı adı veya parola hatalı");
+                    this.DialogResult = DialogResult.No;
+                }
             }
-            else
-            {
-                MessageBox.Show("Kullanıcı adı veya parola hatalı");
-                this.Close();
-
-            }
-
         }
 
         private void btn_vacgec_Click(object sender, EventArgs e)
