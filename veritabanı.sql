@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS calisanlar (
     d_tarihi DATE NOT NULL,
     baslama_tarihi DATE NOT NULL,
     foto VARCHAR(255) NULL,
-    adres VARCHAR(255) NOT NULL,
+    adres VARCHAR(255) NULL,
     olusturulma_tarihi DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS islem_gecmisi (
 
 -- Çalışanlar (Sekreter, Teknisyen ve Yönetici girişleri)
 INSERT INTO calisanlar (ad, soyad, kullanici_adi, sifre, yetki, email, telefon, tc, maas, cinsiyet, d_tarihi, baslama_tarihi, foto, adres) VALUES
+('Samet', 'ATABAŞ','sametatabasch','123456','Yönetici', 'sametatabasch@servis.com', '05551110004', '10000000004', 50000.00, 'Erkek', '1985-07-15', '2022-01-15', 'profil4.jpg', 'Tirebolu, Giresun'),
 ('Ahmet', 'Yılmaz', 'yonetici', '123456', 'Yönetici', 'ahmet.yilmaz@servis.com', '05551110001', '10000000001', 45000.00, 'Erkek', '1988-04-12', '2022-01-15', 'profil1.jpg', 'Kadıköy, İstanbul'),
 ('Ayşe', 'Kaya', 'sekreter', '123456', 'Sekreter', 'ayse.kaya@servis.com', '05551110002', '10000000002', 32000.00, 'Kadın', '1995-09-20', '2023-03-01', 'profil2.jpg', 'Üsküdar, İstanbul'),
 ('Mehmet', 'Demir', 'teknisyen1', '123456', 'Teknisyen', 'mehmet.demir@servis.com', '05551110003', '10000000003', 38000.00, 'Erkek', '1992-11-05', '2022-06-10', 'profil3.jpg', 'Ataşehir, İstanbul');
