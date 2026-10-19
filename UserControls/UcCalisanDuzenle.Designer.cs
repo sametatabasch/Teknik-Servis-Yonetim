@@ -34,7 +34,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(286, 115);
+            label1.Location = new Point(191, 42);
             label1.Name = "label1";
             label1.Size = new Size(90, 15);
             label1.TabIndex = 0;
@@ -47,6 +47,7 @@
             Controls.Add(label1);
             Name = "UcCalisanDuzenle";
             Size = new Size(533, 343);
+            Load += UcCalisanDuzenle_Load;
             ResumeLayout(false);
             PerformLayout();
         }

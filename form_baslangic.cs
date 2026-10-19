@@ -30,7 +30,7 @@ namespace Teknik_Servis_Yönetim
             }
         }
 
-        private void sayfa_yukle(UserControl sayfa)
+        public void sayfa_yukle(UserControl sayfa)
         {
             pnl_ana_panel.Controls.Clear();
             sayfa.Dock = DockStyle.Fill;
