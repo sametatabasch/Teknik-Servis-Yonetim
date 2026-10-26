@@ -1,3 +1,5 @@
+﻿using System;
+using System.Windows.Forms;
 using Teknik_Servis_Yönetim.Data;
 using MySql.Data.MySqlClient;
 using Teknik_Servis_Yönetim.Models;
